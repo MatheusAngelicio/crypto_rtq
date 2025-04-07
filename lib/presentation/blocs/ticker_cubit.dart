@@ -5,12 +5,12 @@ import '../../domain/usecases/get_prices_stream_usecase.dart';
 import 'dart:async';
 
 class TickerCubit extends Cubit<TickerState> {
+  TickerCubit(this._getPriceStreamUseCase) : super(TickerInitial());
+
   final GetPriceStreamUseCase _getPriceStreamUseCase;
 
   final Map<String, StreamSubscription<TickerEntity>> _subscriptions = {};
   final Map<String, TickerEntity> _prices = {};
-
-  TickerCubit(this._getPriceStreamUseCase) : super(TickerInitial());
 
   void load(List<String> symbols) async {
     emit(TickerLoading());

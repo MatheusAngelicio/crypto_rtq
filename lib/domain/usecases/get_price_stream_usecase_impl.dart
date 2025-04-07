@@ -5,7 +5,7 @@ import 'package:crypto_rtq/domain/usecases/get_prices_stream_usecase.dart';
 class GetPriceStreamUseCaseImpl implements GetPriceStreamUseCase {
   final TickerRepository repository;
 
-  GetPriceStreamUseCaseImpl(this.repository);
+  GetPriceStreamUseCaseImpl({required this.repository});
 
   @override
   Stream<TickerEntity> call(String symbol) {

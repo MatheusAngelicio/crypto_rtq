@@ -3,22 +3,22 @@ import '../../domain/repositories/ticker_repository.dart';
 import '../datasources/ticker_stream_datasource.dart';
 
 class TickerRepositoryImpl implements TickerRepository {
-  final TickerStreamDatasource streamDatasource;
+  final TickerStreamDatasource datasource;
 
-  TickerRepositoryImpl({required this.streamDatasource});
+  TickerRepositoryImpl({required this.datasource});
 
   @override
   Stream<TickerEntity> subscribeTicker(String symbol) {
-    return streamDatasource.connect(symbol);
+    return datasource.connect(symbol);
   }
 
   @override
   void unsubscribe(String symbol) {
-    streamDatasource.unsubscribe(symbol);
+    datasource.unsubscribe(symbol);
   }
 
   @override
   void dispose() {
-    streamDatasource.dispose();
+    datasource.dispose();
   }
 }

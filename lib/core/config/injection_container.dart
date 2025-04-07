@@ -24,14 +24,15 @@ class AppInjection extends StatelessWidget {
         RepositoryProvider<TickerRepository>(
           create:
               (context) => TickerRepositoryImpl(
-                streamDatasource: context.read<TickerStreamDatasource>(),
+                datasource: context.read<TickerStreamDatasource>(),
               ),
         ),
 
         RepositoryProvider<GetPriceStreamUseCase>(
           create:
-              (context) =>
-                  GetPriceStreamUseCaseImpl(context.read<TickerRepository>()),
+              (context) => GetPriceStreamUseCaseImpl(
+                repository: context.read<TickerRepository>(),
+              ),
         ),
       ],
       child: MultiBlocProvider(
