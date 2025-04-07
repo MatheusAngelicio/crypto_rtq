@@ -1,4 +1,3 @@
-import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ticker_event.dart';
@@ -41,10 +40,6 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
 
   void _handleTickerUpdated(TickerUpdated event, Emitter<TickerState> emit) {
     _prices[event.ticker.symbol] = event.ticker;
-
-    AppLogger.success(
-      'Novo ticker recebido: ${event.ticker.symbol} -> ${event.ticker.price}',
-    );
 
     emit(TickerLoaded(_prices.values.toList()));
   }
