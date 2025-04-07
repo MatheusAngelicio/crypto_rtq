@@ -10,8 +10,10 @@ class BinanceDatasource {
   BinanceDatasource(this.dio);
 
   Future<List<TickerModel>> getPrices() async {
-    final response = await dio.get('${ApiConfig.baseUrl}/ticker/24hr');
+    final response = await dio.get('${ApiConfig.baseUrl}/ticker/price');
     final data = response.data as List;
+    print(response.data);
+
     return data.map((json) => TickerModel.fromJson(json)).toList();
   }
 

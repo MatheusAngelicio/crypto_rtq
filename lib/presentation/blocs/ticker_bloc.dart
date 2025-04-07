@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ticker_event.dart';
 import 'ticker_state.dart';
@@ -10,31 +11,49 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
 
   TickerBloc({required this.getPrices, required this.subscribeTicker})
     : super(TickerInitial()) {
-    on<LoadTickers>(_onLoadTickers);
-    on<SubscribeToTicker>(_onSubscribeToTicker);
+    on<GetPricesEvent>(_onGetPrices);
+    on<SubscribeTickerEvent>(_onSubscribeTicker);
   }
 
-  Future<void> _onLoadTickers(
-    LoadTickers event,
+  Future<void> _onGetPrices(
+    GetPricesEvent event,
     Emitter<TickerState> emit,
   ) async {
     emit(TickerLoading());
     try {
-      final tickers = await getPrices();
+      final tickers = await getPrices(event.symbols);
       emit(TickerLoaded(tickers));
     } catch (e) {
       emit(TickerError('Failed to load tickers: $e'));
     }
   }
 
-  void _onSubscribeToTicker(
-    SubscribeToTicker event,
+  void _onSubscribeTicker(
+    SubscribeTickerEvent event,
     Emitter<TickerState> emit,
   ) {
-    subscribeTicker(event.symbol).listen((ticker) {
-      // Aqui você pode emitir um novo estado ou atualizar um já existente.
-      // Exemplo simplificado:
-      emit(TickerLoaded([ticker]));
-    });
+    // Inicializa a lista atual com o estado atual, se for TickerLoaded
+    List<TickerEntity> currentTickers = [];
+    if (state is TickerLoaded) {
+      currentTickers = List.from((state as TickerLoaded).tickers);
+    }
+
+    for (final symbol in event.symbols) {
+      subscribeTicker(symbol).listen((ticker) {
+        // Atualiza ou adiciona o ticker recebido
+        final index = currentTickers.indexWhere(
+          (t) => t.symbol == ticker.symbol,
+        );
+        if (index >= 0) {
+          currentTickers[index] = ticker;
+        } else {
+          currentTickers.add(ticker);
+        }
+
+        emit(
+          TickerLoaded(List.from(currentTickers)),
+        ); // emite a lista atualizada
+      });
+    }
   }
 }

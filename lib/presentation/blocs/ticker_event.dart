@@ -7,13 +7,20 @@ abstract class TickerEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadTickers extends TickerEvent {}
+class GetPricesEvent extends TickerEvent {
+  final List<String> symbols;
 
-class SubscribeToTicker extends TickerEvent {
-  final String symbol;
-
-  const SubscribeToTicker(this.symbol);
+  const GetPricesEvent(this.symbols);
 
   @override
-  List<Object?> get props => [symbol];
+  List<Object?> get props => [symbols];
+}
+
+class SubscribeTickerEvent extends TickerEvent {
+  final List<String> symbols;
+
+  const SubscribeTickerEvent(this.symbols);
+
+  @override
+  List<Object?> get props => [symbols];
 }

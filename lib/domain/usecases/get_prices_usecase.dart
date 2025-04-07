@@ -6,7 +6,7 @@ class GetPricesUseCase {
 
   GetPricesUseCase(this.repository);
 
-  Future<List<TickerEntity>> call() {
-    return repository.getPrices();
+  Future<List<TickerEntity>> call(List<String> symbols) async {
+    return await repository.getPrices(symbols);
   }
 }

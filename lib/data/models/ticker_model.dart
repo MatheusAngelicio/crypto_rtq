@@ -4,9 +4,12 @@ class TickerModel extends TickerEntity {
   const TickerModel({required super.symbol, required super.price});
 
   factory TickerModel.fromJson(Map<String, dynamic> json) {
+    final priceRaw = json['price'];
+    final parsedPrice = double.tryParse(priceRaw.toString());
+
     return TickerModel(
-      symbol: json['s'],
-      price: double.tryParse(json['c'] ?? '0') ?? 0.0,
+      symbol: json['symbol'] ?? 'UNKNOWN',
+      price: parsedPrice ?? 0.0,
     );
   }
 }

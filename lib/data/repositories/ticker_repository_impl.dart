@@ -8,8 +8,11 @@ class TickerRepositoryImpl implements TickerRepository {
   TickerRepositoryImpl(this.datasource);
 
   @override
-  Future<List<TickerEntity>> getPrices() {
-    return datasource.getPrices();
+  Future<List<TickerEntity>> getPrices(List<String> symbols) async {
+    final allTickers = await datasource.getPrices();
+    return allTickers
+        .where((t) => symbols.contains(t.symbol.toUpperCase()))
+        .toList();
   }
 
   @override
