@@ -1,10 +1,10 @@
 import '../entities/ticker_entity.dart';
 import '../repositories/ticker_repository.dart';
 
-class SubscribeTickerUseCase {
+class GetPriceStreamUseCase {
   final TickerRepository repository;
 
-  SubscribeTickerUseCase(this.repository);
+  GetPriceStreamUseCase(this.repository);
 
   Stream<TickerEntity> call(String symbol) {
     return repository.subscribeTicker(symbol);

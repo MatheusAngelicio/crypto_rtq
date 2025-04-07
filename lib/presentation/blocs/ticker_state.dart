@@ -13,12 +13,12 @@ class TickerInitial extends TickerState {}
 class TickerLoading extends TickerState {}
 
 class TickerLoaded extends TickerState {
-  final List<TickerEntity> tickers;
+  final List<TickerEntity> prices;
 
-  const TickerLoaded(this.tickers);
+  const TickerLoaded(this.prices);
 
   @override
-  List<Object?> get props => [tickers];
+  List<Object?> get props => [prices];
 }
 
 class TickerError extends TickerState {

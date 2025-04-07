@@ -1,13 +1,11 @@
-import 'package:crypto_rtq/core/config/api_config.dart';
-import 'package:crypto_rtq/data/datasources/binance_datasource.dart';
+import 'package:crypto_rtq/data/datasources/ticker_stream_datasource.dart';
+import 'package:crypto_rtq/data/datasources/ticker_stream_datasource_impl.dart';
 import 'package:crypto_rtq/data/repositories/ticker_repository_impl.dart';
 import 'package:crypto_rtq/domain/repositories/ticker_repository.dart';
-import 'package:crypto_rtq/domain/usecases/get_prices_usecase.dart';
-import 'package:crypto_rtq/domain/usecases/subscribe_ticker_usecase.dart';
+import 'package:crypto_rtq/domain/usecases/get_prices_stream_usecase.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 
 class AppInjection extends StatelessWidget {
   final Widget child;
@@ -18,35 +16,28 @@ class AppInjection extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<Dio>(
-          create: (_) => Dio(BaseOptions(baseUrl: ApiConfig.baseUrl)),
+        RepositoryProvider<TickerStreamDatasource>(
+          create: (_) => TickerStreamDatasourceImpl(),
         ),
-        RepositoryProvider<BinanceDatasource>(
-          create: (context) => BinanceDatasource(context.read<Dio>()),
-        ),
+
         RepositoryProvider<TickerRepository>(
           create:
-              (context) =>
-                  TickerRepositoryImpl(context.read<BinanceDatasource>()),
+              (context) => TickerRepositoryImpl(
+                streamDatasource: context.read<TickerStreamDatasource>(),
+              ),
         ),
-        RepositoryProvider<GetPricesUseCase>(
-          create:
-              (context) => GetPricesUseCase(context.read<TickerRepository>()),
-        ),
-        RepositoryProvider<SubscribeTickerUseCase>(
+
+        RepositoryProvider<GetPriceStreamUseCase>(
           create:
               (context) =>
-                  SubscribeTickerUseCase(context.read<TickerRepository>()),
+                  GetPriceStreamUseCase(context.read<TickerRepository>()),
         ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<TickerBloc>(
             create:
-                (context) => TickerBloc(
-                  getPrices: context.read<GetPricesUseCase>(),
-                  subscribeTicker: context.read<SubscribeTickerUseCase>(),
-                ),
+                (context) => TickerBloc(context.read<GetPriceStreamUseCase>()),
           ),
         ],
         child: child,

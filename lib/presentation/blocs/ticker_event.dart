@@ -1,26 +1,21 @@
-import 'package:equatable/equatable.dart';
+import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 
-abstract class TickerEvent extends Equatable {
-  const TickerEvent();
+abstract class TickerEvent {}
 
-  @override
-  List<Object?> get props => [];
-}
-
-class GetPricesEvent extends TickerEvent {
+class SubscribeToTickers extends TickerEvent {
   final List<String> symbols;
 
-  const GetPricesEvent(this.symbols);
-
-  @override
-  List<Object?> get props => [symbols];
+  SubscribeToTickers(this.symbols);
 }
 
-class SubscribeTickerEvent extends TickerEvent {
-  final List<String> symbols;
+class TickerUpdated extends TickerEvent {
+  final TickerEntity ticker;
 
-  const SubscribeTickerEvent(this.symbols);
+  TickerUpdated(this.ticker);
+}
 
-  @override
-  List<Object?> get props => [symbols];
+class TickerErrorOccurred extends TickerEvent {
+  final String message;
+
+  TickerErrorOccurred(this.message);
 }

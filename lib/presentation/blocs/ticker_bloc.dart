@@ -1,59 +1,72 @@
+import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ticker_event.dart';
 import 'ticker_state.dart';
-import '../../../domain/usecases/get_prices_usecase.dart';
-import '../../../domain/usecases/subscribe_ticker_usecase.dart';
+import '../../domain/usecases/get_prices_stream_usecase.dart';
+import 'dart:async';
 
 class TickerBloc extends Bloc<TickerEvent, TickerState> {
-  final GetPricesUseCase getPrices;
-  final SubscribeTickerUseCase subscribeTicker;
+  final GetPriceStreamUseCase _getPriceStreamUseCase;
 
-  TickerBloc({required this.getPrices, required this.subscribeTicker})
-    : super(TickerInitial()) {
-    on<GetPricesEvent>(_onGetPrices);
-    on<SubscribeTickerEvent>(_onSubscribeTicker);
+  final Map<String, StreamSubscription<TickerEntity>> _subscriptions = {};
+  final Map<String, TickerEntity> _prices = {};
+
+  TickerBloc(this._getPriceStreamUseCase) : super(TickerInitial()) {
+    on<SubscribeToTickers>(_handleSubscribeToTickers);
+    on<TickerUpdated>(_handleTickerUpdated);
+    on<TickerErrorOccurred>(_handleTickerError);
   }
 
-  Future<void> _onGetPrices(
-    GetPricesEvent event,
+  Future<void> _handleSubscribeToTickers(
+    SubscribeToTickers event,
     Emitter<TickerState> emit,
   ) async {
     emit(TickerLoading());
-    try {
-      final tickers = await getPrices(event.symbols);
-      emit(TickerLoaded(tickers));
-    } catch (e) {
-      emit(TickerError('Failed to load tickers: $e'));
+    await _cancelAllSubscriptions();
+
+    for (final symbol in event.symbols) {
+      final subscription = _getPriceStreamUseCase(symbol).listen(
+        (ticker) {
+          add(TickerUpdated(ticker));
+        },
+        onError: (error) {
+          add(TickerErrorOccurred(error.toString()));
+        },
+      );
+
+      _subscriptions[symbol] = subscription;
     }
   }
 
-  void _onSubscribeTicker(
-    SubscribeTickerEvent event,
+  void _handleTickerUpdated(TickerUpdated event, Emitter<TickerState> emit) {
+    _prices[event.ticker.symbol] = event.ticker;
+
+    AppLogger.success(
+      'Novo ticker recebido: ${event.ticker.symbol} -> ${event.ticker.price}',
+    );
+
+    emit(TickerLoaded(_prices.values.toList()));
+  }
+
+  void _handleTickerError(
+    TickerErrorOccurred event,
     Emitter<TickerState> emit,
   ) {
-    // Inicializa a lista atual com o estado atual, se for TickerLoaded
-    List<TickerEntity> currentTickers = [];
-    if (state is TickerLoaded) {
-      currentTickers = List.from((state as TickerLoaded).tickers);
-    }
+    emit(TickerError(event.message));
+  }
 
-    for (final symbol in event.symbols) {
-      subscribeTicker(symbol).listen((ticker) {
-        // Atualiza ou adiciona o ticker recebido
-        final index = currentTickers.indexWhere(
-          (t) => t.symbol == ticker.symbol,
-        );
-        if (index >= 0) {
-          currentTickers[index] = ticker;
-        } else {
-          currentTickers.add(ticker);
-        }
-
-        emit(
-          TickerLoaded(List.from(currentTickers)),
-        ); // emite a lista atualizada
-      });
+  Future<void> _cancelAllSubscriptions() async {
+    for (final sub in _subscriptions.values) {
+      await sub.cancel();
     }
+    _subscriptions.clear();
+    _prices.clear();
+  }
+
+  @override
+  Future<void> close() async {
+    await _cancelAllSubscriptions();
+    return super.close();
   }
 }

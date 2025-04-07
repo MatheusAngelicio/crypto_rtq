@@ -1,22 +1,14 @@
 import '../../domain/entities/ticker_entity.dart';
 import '../../domain/repositories/ticker_repository.dart';
-import '../datasources/binance_datasource.dart';
+import '../datasources/ticker_stream_datasource.dart';
 
 class TickerRepositoryImpl implements TickerRepository {
-  final BinanceDatasource datasource;
+  final TickerStreamDatasource streamDatasource;
 
-  TickerRepositoryImpl(this.datasource);
-
-  @override
-  Future<List<TickerEntity>> getPrices(List<String> symbols) async {
-    final allTickers = await datasource.getPrices();
-    return allTickers
-        .where((t) => symbols.contains(t.symbol.toUpperCase()))
-        .toList();
-  }
+  TickerRepositoryImpl({required this.streamDatasource});
 
   @override
   Stream<TickerEntity> subscribeTicker(String symbol) {
-    return datasource.subscribeTicker(symbol);
+    return streamDatasource.connect(symbol);
   }
 }
