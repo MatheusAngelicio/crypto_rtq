@@ -14,11 +14,12 @@ class TickerLoading extends TickerState {}
 
 class TickerLoaded extends TickerState {
   final List<TickerEntity> prices;
+  final String currency;
 
-  const TickerLoaded(this.prices);
+  const TickerLoaded(this.prices, {this.currency = 'USD'});
 
   @override
-  List<Object?> get props => [prices];
+  List<Object?> get props => [prices, currency];
 }
 
 class TickerError extends TickerState {
