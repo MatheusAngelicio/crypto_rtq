@@ -11,4 +11,14 @@ class TickerRepositoryImpl implements TickerRepository {
   Stream<TickerEntity> subscribeTicker(String symbol) {
     return streamDatasource.connect(symbol);
   }
+
+  @override
+  void unsubscribe(String symbol) {
+    streamDatasource.unsubscribe(symbol);
+  }
+
+  @override
+  void dispose() {
+    streamDatasource.dispose();
+  }
 }

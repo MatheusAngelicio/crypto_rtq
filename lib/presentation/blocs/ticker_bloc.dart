@@ -52,9 +52,11 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
   }
 
   Future<void> _cancelAllSubscriptions() async {
-    for (final sub in _subscriptions.values) {
-      await sub.cancel();
+    for (final symbol in _subscriptions.keys) {
+      await _subscriptions[symbol]?.cancel();
+      _getPriceStreamUseCase.unsubscribe(symbol); // <- fecha o WebSocket também
     }
+
     _subscriptions.clear();
     _prices.clear();
   }
@@ -62,6 +64,7 @@ class TickerBloc extends Bloc<TickerEvent, TickerState> {
   @override
   Future<void> close() async {
     await _cancelAllSubscriptions();
+    _getPriceStreamUseCase.dispose(); // <- fecha TODOS os canais ativos
     return super.close();
   }
 }
