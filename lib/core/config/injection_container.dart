@@ -4,7 +4,7 @@ import 'package:crypto_rtq/data/repositories/ticker_repository_impl.dart';
 import 'package:crypto_rtq/domain/repositories/ticker_repository.dart';
 import 'package:crypto_rtq/domain/usecases/get_price_stream_usecase_impl.dart';
 import 'package:crypto_rtq/domain/usecases/get_prices_stream_usecase.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker_bloc.dart';
+import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,9 +36,9 @@ class AppInjection extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<TickerBloc>(
+          BlocProvider<TickerCubit>(
             create:
-                (context) => TickerBloc(context.read<GetPriceStreamUseCase>()),
+                (context) => TickerCubit(context.read<GetPriceStreamUseCase>()),
           ),
         ],
         child: child,

@@ -1,5 +1,5 @@
-import 'package:crypto_rtq/presentation/blocs/ticker_bloc.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker_event.dart';
+import 'package:crypto_rtq/core/utils/coin_utils.dart';
+import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,14 +17,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<TickerBloc>().add(SubscribeToTickers(symbols));
+    context.read<TickerCubit>().load(symbols);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Crypto Prices'), centerTitle: true),
-      body: BlocBuilder<TickerBloc, TickerState>(
+      body: BlocBuilder<TickerCubit, TickerState>(
         builder: (context, state) {
           if (state is TickerLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final coin = prices[index];
                 return _buildPriceCard(
-                  _getCoinName(coin.symbol),
+                  CoinUtils.getCoinName(coin.symbol),
                   coin.symbol.toUpperCase(),
                   coin.price,
                 );
@@ -55,22 +55,6 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
-  }
-
-  // Exemplo simples de nome amigável (ajuste conforme quiser)
-  String _getCoinName(String symbol) {
-    switch (symbol.toLowerCase()) {
-      case 'btcusdt':
-        return 'Bitcoin';
-      case 'ethusdt':
-        return 'Ethereum';
-      case 'bnbusdt':
-        return 'BNB';
-      case 'adausdt':
-        return 'Cardano';
-      default:
-        return symbol.toUpperCase();
-    }
   }
 
   Widget _buildPriceCard(String name, String symbol, double price) {
