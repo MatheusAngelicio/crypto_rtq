@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:dio/dio.dart';
 import '../../core/config/api_config.dart';
 import '../models/ticker_model.dart';
@@ -10,11 +11,17 @@ class BinanceDatasource {
   BinanceDatasource(this.dio);
 
   Future<List<TickerModel>> getPrices() async {
-    final response = await dio.get('${ApiConfig.baseUrl}/ticker/price');
-    final data = response.data as List;
-    print(response.data);
+    try {
+      final response = await dio.get('${ApiConfig.baseUrl}/ticker/price');
+      final data = response.data as List;
 
-    return data.map((json) => TickerModel.fromJson(json)).toList();
+      AppLogger.success('Successfully fetched ${data.length} prices');
+
+      return data.map((json) => TickerModel.fromJson(json)).toList();
+    } catch (e) {
+      AppLogger.error('Failed to fetch prices: $e');
+      rethrow;
+    }
   }
 
   Stream<TickerModel> subscribeTicker(String symbol) {
@@ -24,7 +31,11 @@ class BinanceDatasource {
 
     return channel.stream.map((event) {
       final json = jsonDecode(event);
-      return TickerModel.fromJson(json);
+      final ticker = TickerModel.fromJson(json);
+      AppLogger.info(
+        '🔄 Update: ${ticker.symbol} = \$${ticker.price.toStringAsFixed(2)}',
+      );
+      return ticker;
     });
   }
 }
