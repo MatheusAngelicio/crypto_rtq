@@ -4,6 +4,7 @@ import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_state.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dart';
+import 'package:crypto_rtq/presentation/views/home/widgets/shimmer_price_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<TickerCubit, TickerState>(
         builder: (context, state) {
           if (state is TickerLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const ShimmerPriceListWidget();
           }
 
           if (state is TickerError) {
