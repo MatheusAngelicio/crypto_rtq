@@ -42,7 +42,11 @@ class TickerCubit extends Cubit<TickerState> {
 
   void toggleCurrency() {
     _currency = _currency == 'USD' ? 'BRL' : 'USD';
-    emit(TickerLoaded(_prices.values.toList(), currency: _currency));
+
+    final sortedPrices =
+        _prices.values.toList()..sort((a, b) => b.price.compareTo(a.price));
+
+    emit(TickerLoaded(sortedPrices, currency: _currency));
   }
 
   Future<void> _cancelAllSubscriptions() async {
