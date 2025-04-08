@@ -60,7 +60,6 @@ class _HomePageState extends State<HomePage> {
 
                       return PriceCardWidget(
                         name: CoinUtils.getCoinName(coin.symbol),
-                        symbol: coin.symbol.toUpperCase(),
                         price: convertedPrice,
                       );
                     },

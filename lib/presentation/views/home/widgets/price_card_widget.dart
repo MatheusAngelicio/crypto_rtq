@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PriceCardWidget extends StatelessWidget {
-  const PriceCardWidget({
-    super.key,
-    required this.name,
-    required this.symbol,
-    required this.price,
-  });
+  const PriceCardWidget({super.key, required this.name, required this.price});
 
-  final String name, symbol, price;
+  final String name, price;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +12,7 @@ class PriceCardWidget extends StatelessWidget {
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        leading: CircleAvatar(child: Text(symbol[0])),
+        leading: CircleAvatar(child: Text(name[0])),
         title: Text(name),
         subtitle: Text(price),
       ),
