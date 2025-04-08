@@ -14,11 +14,10 @@ class TickerStreamDatasourceImpl implements TickerStreamDatasource {
 
     if (!_channels.containsKey(symbol)) {
       try {
-        AppLogger.success('[WebSocket] Conectando para: $symbol...');
         _channels[symbol] = WebSocketChannel.connect(Uri.parse(url));
-        AppLogger.success('[WebSocket] Conectado com sucesso: $symbol');
+        AppLogger.success('[WebSocket] Connected successfully: $symbol');
       } catch (e) {
-        AppLogger.error('[WebSocket] Falha na conexão com $symbol: $e');
+        AppLogger.error('[WebSocket] Connection failed with $symbol: $e');
         rethrow;
       }
     }
@@ -30,8 +29,8 @@ class TickerStreamDatasourceImpl implements TickerStreamDatasource {
         final data = jsonDecode(event);
         return TickerModel.fromWsJson(data);
       } catch (e) {
-        AppLogger.error('[WebSocket] Erro ao processar mensagem: $e');
-        throw Exception('Erro ao processar dados do WebSocket');
+        AppLogger.error('[WebSocket] Error processing message: $e');
+        throw Exception('Error processing WebSocket data');
       }
     });
   }
