@@ -17,6 +17,7 @@ class AppInjection extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        // injeções aqui
         RepositoryProvider<TickerStreamDatasource>(
           create: (_) => TickerStreamDatasourceImpl(),
         ),
@@ -36,6 +37,7 @@ class AppInjection extends StatelessWidget {
         ),
       ],
       child: MultiBlocProvider(
+        // cubits aqui
         providers: [
           BlocProvider<TickerCubit>(
             create:

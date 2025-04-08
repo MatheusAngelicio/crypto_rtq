@@ -1,6 +1,8 @@
+import 'package:crypto_rtq/core/constants/constants.dart';
 import 'package:crypto_rtq/core/utils/coin_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_state.dart';
+import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> symbols = ['btcusdt', 'ethusdt'];
-
   @override
   void initState() {
     super.initState();
@@ -41,23 +41,10 @@ class _HomePageState extends State<HomePage> {
 
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('USD'),
-                      Switch(
-                        value: isBRL,
-                        onChanged:
-                            (_) => context.read<TickerCubit>().toggleCurrency(),
-                      ),
-                      const Text('BRL'),
-                    ],
-                  ),
+                CurrencyToggleWidget(
+                  isBRL: state.currency == 'BRL',
+                  onChanged:
+                      (_) => context.read<TickerCubit>().toggleCurrency(),
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -67,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                       final coin = prices[index];
                       final convertedPrice = CoinUtils.formatPrice(
                         priceStr: coin.price.toString(),
-                        rate: 5.8, // Talvez pegar de uma api
+                        rate: 5.8, // futuro: obter da API
                         toBRL: isBRL,
                       );
 

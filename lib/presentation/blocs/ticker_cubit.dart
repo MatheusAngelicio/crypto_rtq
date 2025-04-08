@@ -10,7 +10,7 @@ class TickerCubit extends Cubit<TickerState> {
   final GetPriceStreamUseCase _getPriceStreamUseCase;
   final Map<String, StreamSubscription<TickerEntity>> _subscriptions = {};
   final Map<String, TickerEntity> _prices = {};
-  String _currency = 'USD'; // padrão inicial
+  String _currency = 'USD';
 
   void load(List<String> symbols) async {
     emit(TickerLoading());
@@ -33,7 +33,6 @@ class TickerCubit extends Cubit<TickerState> {
 
   void toggleCurrency() {
     _currency = _currency == 'USD' ? 'BRL' : 'USD';
-    // Reemite o estado com a nova moeda e os mesmos preços
     emit(TickerLoaded(_prices.values.toList(), currency: _currency));
   }
 
