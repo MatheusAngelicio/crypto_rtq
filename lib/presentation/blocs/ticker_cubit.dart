@@ -20,7 +20,7 @@ class TickerCubit extends Cubit<TickerState> {
       final subscription = _getPriceStreamUseCase(symbol).listen(
         (ticker) {
           _prices[ticker.symbol] = ticker;
-          emit(TickerLoaded(_prices.values.toList(), currency: _currency));
+          _emitSortedPricesIfReady(expectedCount: symbols.length);
         },
         onError: (error) {
           emit(TickerError(error.toString()));
@@ -29,6 +29,15 @@ class TickerCubit extends Cubit<TickerState> {
 
       _subscriptions[symbol] = subscription;
     }
+  }
+
+  void _emitSortedPricesIfReady({required int expectedCount}) {
+    if (_prices.length < expectedCount) return;
+
+    final sortedPrices =
+        _prices.values.toList()..sort((a, b) => b.price.compareTo(a.price));
+
+    emit(TickerLoaded(sortedPrices, currency: _currency));
   }
 
   void toggleCurrency() {

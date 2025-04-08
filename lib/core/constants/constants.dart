@@ -7,6 +7,5 @@ const List<String> symbols = [
   'dogeusdt',
   'solusdt',
   'dotusdt',
-  'maticusdt',
   'ltcusdt',
 ];

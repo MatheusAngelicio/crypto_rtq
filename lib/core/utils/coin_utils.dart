@@ -10,7 +10,6 @@ class CoinUtils {
     'dogeusdt': 'Dogecoin',
     'solusdt': 'Solana',
     'dotusdt': 'Polkadot',
-    'maticusdt': 'Polygon',
     'ltcusdt': 'Litecoin',
   };
 
