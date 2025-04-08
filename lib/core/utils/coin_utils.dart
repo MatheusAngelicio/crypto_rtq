@@ -13,6 +13,8 @@ class CoinUtils {
     'ltcusdt': 'Litecoin',
   };
 
+  static List<String> get symbols => _coinNames.keys.toList();
+
   static String getCoinName(String symbol) {
     return _coinNames[symbol.toLowerCase()] ?? symbol.toUpperCase();
   }

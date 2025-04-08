@@ -1,4 +1,3 @@
-import 'package:crypto_rtq/core/constants/constants.dart';
 import 'package:crypto_rtq/core/utils/coin_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_state.dart';
@@ -19,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<TickerCubit>().load(symbols);
+    context.read<TickerCubit>().load(CoinUtils.symbols);
   }
 
   @override
