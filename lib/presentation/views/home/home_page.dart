@@ -15,10 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final TickerCubit _tickerCubit;
+
   @override
   void initState() {
     super.initState();
-    context.read<TickerCubit>().load(CoinUtils.symbols);
+    _tickerCubit = context.read<TickerCubit>()..load(CoinUtils.symbols);
   }
 
   @override
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Crypto Prices'), centerTitle: true),
       body: BlocBuilder<TickerCubit, TickerState>(
+        bloc: _tickerCubit,
         builder: (context, state) {
           if (state is TickerLoading) {
             return const ShimmerPriceListWidget();

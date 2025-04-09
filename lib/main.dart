@@ -1,5 +1,5 @@
 import 'package:crypto_rtq/core/config/injection_container.dart';
-import 'package:crypto_rtq/presentation/views/home/home_page.dart';
+import 'package:crypto_rtq/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppInjection(
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Crypto Watch',
         theme: ThemeData.dark(),
-        home: const HomePage(),
+        routerConfig: AppRouter.router,
       ),
     );
   }
