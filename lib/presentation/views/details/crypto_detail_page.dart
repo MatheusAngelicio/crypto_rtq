@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/utils/coin_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CryptoDetailCubit>().load(widget.symbol);
+
+    final symbol = CoinUtils.getSymbolByName(widget.symbol).toUpperCase();
+    context.read<CryptoDetailCubit>().load(symbol);
   }
 
   @override
@@ -44,10 +47,6 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    crypto.symbol,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
                   const SizedBox(height: 16),
                   Text('Last Price: ${crypto.lastPrice}'),
                   Text('High Price: ${crypto.highPrice}'),

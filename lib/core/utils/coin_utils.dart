@@ -19,6 +19,15 @@ class CoinUtils {
     return _coinNames[symbol.toLowerCase()] ?? symbol.toUpperCase();
   }
 
+  static String getSymbolByName(String name) {
+    return _coinNames.entries
+        .firstWhere(
+          (entry) => entry.value.toLowerCase() == name.toLowerCase(),
+          orElse: () => const MapEntry('', ''),
+        )
+        .key;
+  }
+
   static String formatPrice({
     required String priceStr,
     required double rate,
