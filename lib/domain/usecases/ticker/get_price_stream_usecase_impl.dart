@@ -1,6 +1,6 @@
 import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:crypto_rtq/domain/repositories/ticker_repository.dart';
-import 'package:crypto_rtq/domain/usecases/get_prices_stream_usecase.dart';
+import 'package:crypto_rtq/domain/usecases/ticker/get_prices_stream_usecase.dart';
 
 class GetPriceStreamUseCaseImpl implements GetPriceStreamUseCase {
   final TickerRepository repository;

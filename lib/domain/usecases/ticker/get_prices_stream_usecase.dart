@@ -1,4 +1,4 @@
-import '../entities/ticker_entity.dart';
+import '../../entities/ticker_entity.dart';
 
 abstract class GetPriceStreamUseCase {
   Stream<TickerEntity> call(String symbol);

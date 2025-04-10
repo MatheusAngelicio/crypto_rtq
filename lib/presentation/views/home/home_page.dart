@@ -1,7 +1,7 @@
 import 'package:crypto_rtq/core/config/app_routes.dart';
 import 'package:crypto_rtq/core/utils/coin_utils.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker_state.dart';
+import 'package:crypto_rtq/presentation/blocs/ticker/ticker_cubit.dart';
+import 'package:crypto_rtq/presentation/blocs/ticker/ticker_state.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/shimmer_price_list_widget.dart';

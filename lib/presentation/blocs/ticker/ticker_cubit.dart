@@ -1,7 +1,7 @@
 import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ticker_state.dart';
-import '../../domain/usecases/get_prices_stream_usecase.dart';
+import '../../../domain/usecases/ticker/get_prices_stream_usecase.dart';
 import 'dart:async';
 
 class TickerCubit extends Cubit<TickerState> {

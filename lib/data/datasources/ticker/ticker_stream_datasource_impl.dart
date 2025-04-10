@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'package:crypto_rtq/core/config/api_config.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
-import 'package:crypto_rtq/data/datasources/ticker_stream_datasource.dart';
+import 'package:crypto_rtq/data/datasources/ticker/ticker_stream_datasource.dart';
 import 'package:crypto_rtq/data/models/ticker_model.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -9,8 +10,9 @@ class TickerStreamDatasourceImpl implements TickerStreamDatasource {
 
   @override
   Stream<TickerModel> connect(String symbol) {
+    final wsUrl = ApiConfig.wsUrl;
     final lowerSymbol = symbol.toLowerCase();
-    final url = 'wss://stream.binance.com:9443/ws/$lowerSymbol@trade';
+    final url = '$wsUrl/$lowerSymbol@trade';
 
     if (!_channels.containsKey(symbol)) {
       try {

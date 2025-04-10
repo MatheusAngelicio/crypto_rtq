@@ -1,4 +1,4 @@
-import '../models/ticker_model.dart';
+import '../../models/ticker_model.dart';
 
 abstract class TickerStreamDatasource {
   Stream<TickerModel> connect(String symbol);

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/ticker_entity.dart';
+import '../../../../domain/entities/ticker_entity.dart';
 
 abstract class TickerState extends Equatable {
   const TickerState();
