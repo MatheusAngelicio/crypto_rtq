@@ -1,12 +1,15 @@
-import 'package:crypto_rtq/core/config/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class PriceCardWidget extends StatelessWidget {
-  const PriceCardWidget({super.key, required this.name, required this.price});
+  const PriceCardWidget({
+    super.key,
+    required this.name,
+    required this.price,
+    required this.onTap,
+  });
 
-  final String name;
-  final String price;
+  final String name, price;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +18,7 @@ class PriceCardWidget extends StatelessWidget {
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        onTap: () {
-          final lowerSymbol = name.toLowerCase();
-          context.pushNamed(
-            AppRoutes.cryptoDetailName,
-            pathParameters: {'symbol': lowerSymbol},
-          );
-        },
+        onTap: onTap,
         leading: CircleAvatar(child: Text(name[0])),
         title: Text(name),
         subtitle: Text('\$ $price'),

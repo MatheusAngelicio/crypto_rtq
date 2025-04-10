@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/config/app_routes.dart';
 import 'package:crypto_rtq/core/utils/coin_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker_state.dart';
@@ -6,6 +7,7 @@ import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dar
 import 'package:crypto_rtq/presentation/views/home/widgets/shimmer_price_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -64,6 +66,14 @@ class _HomePageState extends State<HomePage> {
                       return PriceCardWidget(
                         name: CoinUtils.getCoinName(coin.symbol),
                         price: convertedPrice,
+                        onTap: () {
+                          final lowerSymbol =
+                              CoinUtils.getCoinName(coin.symbol).toLowerCase();
+                          context.pushNamed(
+                            AppRoutes.cryptoDetailName,
+                            pathParameters: {'symbol': lowerSymbol},
+                          );
+                        },
                       );
                     },
                   ),
