@@ -1,31 +1,16 @@
+import 'package:crypto_rtq/core/enums/coin_enum.dart';
 import 'package:intl/intl.dart';
 
 class CoinUtils {
-  static final Map<String, String> _coinNames = {
-    'btcusdt': 'Bitcoin',
-    'ethusdt': 'Ethereum',
-    'bnbusdt': 'BNB',
-    'xrpusdt': 'XRP',
-    'adausdt': 'Cardano',
-    'dogeusdt': 'Dogecoin',
-    'solusdt': 'Solana',
-    'dotusdt': 'Polkadot',
-    'ltcusdt': 'Litecoin',
-  };
-
-  static List<String> get symbols => _coinNames.keys.toList();
+  static List<String> get symbols =>
+      CoinEnum.values.map((e) => e.symbol).toList();
 
   static String getCoinName(String symbol) {
-    return _coinNames[symbol.toLowerCase()] ?? symbol.toUpperCase();
+    return CoinEnum.fromSymbol(symbol)?.name ?? symbol.toUpperCase();
   }
 
   static String getSymbolByName(String name) {
-    return _coinNames.entries
-        .firstWhere(
-          (entry) => entry.value.toLowerCase() == name.toLowerCase(),
-          orElse: () => const MapEntry('', ''),
-        )
-        .key;
+    return CoinEnum.fromName(name)?.symbol ?? '';
   }
 
   static String formatPrice({
