@@ -1,4 +1,4 @@
-import 'package:crypto_rtq/core/utils/coin_utils.dart';
+import 'package:crypto_rtq/core/utils/ticker_utils.dart';
 import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
@@ -27,7 +27,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(CoinUtils.getCoinName(widget.tickerEntity.symbol)),
+        title: Text(TickerUtils.getCoinName(widget.tickerEntity.symbol)),
         centerTitle: true,
       ),
       body: Padding(

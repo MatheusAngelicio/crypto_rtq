@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-enum CoinEnum {
+enum TickerEnum {
   btcusdt('btcusdt', 'Bitcoin'),
   ethusdt('ethusdt', 'Ethereum'),
   bnbusdt('bnbusdt', 'BNB'),
@@ -14,16 +14,16 @@ enum CoinEnum {
   final String symbol;
   final String name;
 
-  const CoinEnum(this.symbol, this.name);
+  const TickerEnum(this.symbol, this.name);
 
-  static CoinEnum? fromSymbol(String symbol) {
-    return CoinEnum.values.firstWhereOrNull(
+  static TickerEnum? fromSymbol(String symbol) {
+    return TickerEnum.values.firstWhereOrNull(
       (coin) => coin.symbol.toLowerCase() == symbol.toLowerCase(),
     );
   }
 
-  static CoinEnum? fromName(String name) {
-    return CoinEnum.values.firstWhereOrNull(
+  static TickerEnum? fromName(String name) {
+    return TickerEnum.values.firstWhereOrNull(
       (coin) => coin.name.toLowerCase() == name.toLowerCase(),
     );
   }

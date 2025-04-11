@@ -1,16 +1,16 @@
-import 'package:crypto_rtq/core/enums/coin_enum.dart';
+import 'package:crypto_rtq/core/enums/ticker_enum.dart';
 import 'package:intl/intl.dart';
 
-class CoinUtils {
+class TickerUtils {
   static List<String> get symbols =>
-      CoinEnum.values.map((e) => e.symbol).toList();
+      TickerEnum.values.map((e) => e.symbol).toList();
 
   static String getCoinName(String symbol) {
-    return CoinEnum.fromSymbol(symbol)?.name ?? symbol.toUpperCase();
+    return TickerEnum.fromSymbol(symbol)?.name ?? symbol.toUpperCase();
   }
 
   static String getSymbolByName(String name) {
-    return CoinEnum.fromName(name)?.symbol ?? '';
+    return TickerEnum.fromName(name)?.symbol ?? '';
   }
 
   static String formatPrice({

@@ -1,5 +1,5 @@
 import 'package:crypto_rtq/core/config/app_routes.dart';
-import 'package:crypto_rtq/core/utils/coin_utils.dart';
+import 'package:crypto_rtq/core/utils/ticker_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker/ticker_state.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _tickerCubit = context.read<TickerCubit>()..load(CoinUtils.symbols);
+    _tickerCubit = context.read<TickerCubit>()..load(TickerUtils.symbols);
   }
 
   @override
@@ -57,14 +57,14 @@ class _HomePageState extends State<HomePage> {
                     itemCount: prices.length,
                     itemBuilder: (context, index) {
                       final ticker = prices[index];
-                      final convertedPrice = CoinUtils.formatPrice(
+                      final convertedPrice = TickerUtils.formatPrice(
                         priceStr: ticker.price.toString(),
                         rate: 5.8, // futuro: obter da API
                         toBRL: isBRL,
                       );
 
                       return PriceCardWidget(
-                        name: CoinUtils.getCoinName(ticker.symbol),
+                        name: TickerUtils.getCoinName(ticker.symbol),
                         price: convertedPrice,
                         onTap: () {
                           context.pushNamed(
