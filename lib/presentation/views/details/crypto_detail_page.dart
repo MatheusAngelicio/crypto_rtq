@@ -1,13 +1,14 @@
 import 'package:crypto_rtq/core/utils/coin_utils.dart';
+import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CryptoDetailPage extends StatefulWidget {
-  final String symbol;
+  final TickerEntity tickerEntity;
 
-  const CryptoDetailPage({super.key, required this.symbol});
+  const CryptoDetailPage({super.key, required this.tickerEntity});
 
   @override
   State<CryptoDetailPage> createState() => _CryptoDetailPageState();
@@ -18,7 +19,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   void initState() {
     super.initState();
 
-    final symbol = CoinUtils.getSymbolByName(widget.symbol).toUpperCase();
+    final symbol = widget.tickerEntity.symbol;
     context.read<CryptoDetailCubit>().load(symbol);
   }
 
@@ -26,7 +27,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.symbol.toUpperCase()),
+        title: Text(CoinUtils.getCoinName(widget.tickerEntity.symbol)),
         centerTitle: true,
       ),
       body: Padding(

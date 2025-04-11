@@ -1,4 +1,5 @@
 import 'package:crypto_rtq/core/config/app_routes.dart';
+import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:crypto_rtq/presentation/views/details/crypto_detail_page.dart';
 import 'package:crypto_rtq/presentation/views/home/home_page.dart';
 import 'package:go_router/go_router.dart';
@@ -16,8 +17,8 @@ class AppRouter {
         path: AppRoutes.cryptoDetail,
         name: AppRoutes.cryptoDetailName,
         builder: (context, state) {
-          final symbol = state.pathParameters['symbol']!;
-          return CryptoDetailPage(symbol: symbol);
+          final ticker = state.extra as TickerEntity;
+          return CryptoDetailPage(tickerEntity: ticker);
         },
       ),
     ],

@@ -56,22 +56,20 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(16),
                     itemCount: prices.length,
                     itemBuilder: (context, index) {
-                      final coin = prices[index];
+                      final ticker = prices[index];
                       final convertedPrice = CoinUtils.formatPrice(
-                        priceStr: coin.price.toString(),
+                        priceStr: ticker.price.toString(),
                         rate: 5.8, // futuro: obter da API
                         toBRL: isBRL,
                       );
 
                       return PriceCardWidget(
-                        name: CoinUtils.getCoinName(coin.symbol),
+                        name: CoinUtils.getCoinName(ticker.symbol),
                         price: convertedPrice,
                         onTap: () {
-                          final lowerSymbol =
-                              CoinUtils.getCoinName(coin.symbol).toLowerCase();
                           context.pushNamed(
                             AppRoutes.cryptoDetailName,
-                            pathParameters: {'symbol': lowerSymbol},
+                            extra: ticker,
                           );
                         },
                       );
