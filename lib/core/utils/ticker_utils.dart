@@ -6,7 +6,7 @@ class TickerUtils {
       TickerEnum.values.map((e) => e.symbol).toList();
 
   static String getCoinName(String symbol) {
-    return TickerEnum.fromSymbol(symbol)?.name ?? symbol.toUpperCase();
+    return TickerEnum.fromSymbol(symbol)?.name ?? '';
   }
 
   static String getSymbolByName(String name) {
