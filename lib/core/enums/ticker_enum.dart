@@ -11,8 +11,7 @@ enum TickerEnum {
   dotusdt('dotusdt', 'Polkadot'),
   ltcusdt('ltcusdt', 'Litecoin');
 
-  final String symbol;
-  final String name;
+  final String symbol, name;
 
   const TickerEnum(this.symbol, this.name);
 

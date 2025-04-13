@@ -21,7 +21,7 @@ class PriceCardWidget extends StatelessWidget {
         onTap: onTap,
         leading: CircleAvatar(child: Text(name[0])),
         title: Text(name),
-        subtitle: Text('\$ $price'),
+        subtitle: Text(price),
       ),
     );
   }
