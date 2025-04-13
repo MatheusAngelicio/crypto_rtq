@@ -15,7 +15,7 @@ class TickerUtils {
 
   static String formatPrice({
     required String priceStr,
-    required double rate,
+    double rate = 5.8, // futuro: obter da API
     bool toBRL = false,
   }) {
     final price = double.tryParse(priceStr) ?? 0;

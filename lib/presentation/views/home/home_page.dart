@@ -2,6 +2,7 @@ import 'package:crypto_rtq/core/config/app_routes.dart';
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker/ticker_state.dart';
+import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/shimmer_price_list_widget.dart';
@@ -59,7 +60,6 @@ class _HomePageState extends State<HomePage> {
                       final ticker = prices[index];
                       final convertedPrice = TickerUtils.formatPrice(
                         priceStr: ticker.price.toString(),
-                        rate: 5.8, // futuro: obter da API
                         toBRL: isBRL,
                       );
 
@@ -69,7 +69,10 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           context.pushNamed(
                             AppRoutes.cryptoDetailName,
-                            extra: ticker,
+                            extra: CryptoDetailArguments(
+                              tickerEntity: ticker,
+                              isBRL: isBRL,
+                            ),
                           );
                         },
                       );

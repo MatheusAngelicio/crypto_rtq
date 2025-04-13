@@ -1,14 +1,15 @@
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
-import 'package:crypto_rtq/domain/entities/ticker_entity.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
+import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
+import 'package:crypto_rtq/presentation/views/details/widgets/crypto_price_details_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CryptoDetailPage extends StatefulWidget {
-  final TickerEntity tickerEntity;
+  final CryptoDetailArguments arguments;
 
-  const CryptoDetailPage({super.key, required this.tickerEntity});
+  const CryptoDetailPage({super.key, required this.arguments});
 
   @override
   State<CryptoDetailPage> createState() => _CryptoDetailPageState();
@@ -19,7 +20,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   void initState() {
     super.initState();
 
-    final symbol = widget.tickerEntity.symbol;
+    final symbol = widget.arguments.tickerEntity.symbol;
     context.read<CryptoDetailCubit>().load(symbol);
   }
 
@@ -27,7 +28,9 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(TickerUtils.getCoinName(widget.tickerEntity.symbol)),
+        title: Text(
+          TickerUtils.getCoinName(widget.arguments.tickerEntity.symbol),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -48,11 +51,10 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16),
-                  Text('Last Price: ${crypto.lastPrice}'),
-                  Text('High Price: ${crypto.highPrice}'),
-                  Text('Low Price: ${crypto.lowPrice}'),
-                  Text('Change: ${crypto.priceChangePercent}%'),
+                  CryptoPriceDetailsWidget(
+                    crypto: crypto,
+                    isBRL: widget.arguments.isBRL,
+                  ),
                   const SizedBox(height: 32),
                   Text(
                     'Chart',
@@ -65,6 +67,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                 ],
               );
             }
+
             // estado inicial ou fallback
             return const SizedBox.shrink();
           },
