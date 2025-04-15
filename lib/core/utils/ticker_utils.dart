@@ -1,5 +1,5 @@
 import 'package:crypto_rtq/core/enums/ticker_enum.dart';
-import 'package:intl/intl.dart';
+import 'package:crypto_rtq/core/utils/currency_util.dart';
 
 class TickerUtils {
   static List<String> get symbols =>
@@ -13,20 +13,7 @@ class TickerUtils {
     return TickerEnum.fromName(name)?.symbol ?? '';
   }
 
-  static String formatPrice({
-    required String priceStr,
-    double rate = 5.8, // futuro: obter da API
-    bool toBRL = false,
-  }) {
-    final price = double.tryParse(priceStr) ?? 0;
-    final converted = toBRL ? price * rate : price;
-
-    final format = NumberFormat.currency(
-      locale: toBRL ? 'pt_BR' : 'en_US',
-      symbol: toBRL ? 'R\$' : '\$ ',
-      decimalDigits: 2,
-    );
-
-    return format.format(converted);
+  static String formatPrice({required String priceStr, bool toBRL = false}) {
+    return CurrencyUtils.formatFromString(priceStr: priceStr, toBRL: toBRL);
   }
 }

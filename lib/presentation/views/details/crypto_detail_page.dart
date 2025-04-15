@@ -107,7 +107,10 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
 
                           if (state is CryptoChartLoaded) {
                             final data = state.chartData;
-                            return CryptoChartDataWidget(chartData: data);
+                            return CryptoChartDataWidget(
+                              chartData: data,
+                              isBRL: widget.arguments.isBRL,
+                            );
                           }
 
                           return const SizedBox.shrink();
