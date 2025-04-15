@@ -1,12 +1,11 @@
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
-import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_state.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
 import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
+import 'package:crypto_rtq/presentation/views/details/widgets/crypto_chart_data_widget.dart';
 import 'package:crypto_rtq/presentation/views/details/widgets/crypto_price_details_widget.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +24,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
 
   late String symbol;
   String selectedInterval = '1h'; // Intervalo padrão
+  int selectedLimit = 30;
 
   @override
   void initState() {
@@ -39,7 +39,8 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
 
   void _loadChartData() {
     _cryptoChartCubit =
-        context.read<CryptoChartCubit>()..load(symbol, selectedInterval, 30);
+        context.read<CryptoChartCubit>()
+          ..load(symbol, selectedInterval, selectedLimit);
   }
 
   @override
@@ -106,62 +107,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
 
                           if (state is CryptoChartLoaded) {
                             final data = state.chartData;
-
-                            if (data.isEmpty) {
-                              return const Center(
-                                child: Text('No data available'),
-                              );
-                            }
-
-                            return LineChart(
-                              LineChartData(
-                                lineBarsData: [
-                                  LineChartBarData(
-                                    spots:
-                                        data
-                                            .map(
-                                              (e) => FlSpot(
-                                                e
-                                                    .openTime
-                                                    .millisecondsSinceEpoch
-                                                    .toDouble(),
-                                                e.close,
-                                              ),
-                                            )
-                                            .toList(),
-                                    isCurved: true,
-                                    color: Colors.cyan,
-                                    barWidth: 2,
-                                    dotData: FlDotData(show: false),
-                                    belowBarData: BarAreaData(show: false),
-                                  ),
-                                ],
-                                titlesData: FlTitlesData(
-                                  bottomTitles: AxisTitles(
-                                    sideTitles: SideTitles(
-                                      showTitles: true,
-                                      reservedSize: 22,
-                                      interval: _getTimeInterval(data),
-                                      getTitlesWidget: (value, meta) {
-                                        final date =
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                              value.toInt(),
-                                            );
-                                        return Text(
-                                          '${date.hour}:${date.minute.toString().padLeft(2, '0')}',
-                                          style: const TextStyle(fontSize: 10),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  leftTitles: AxisTitles(
-                                    sideTitles: SideTitles(showTitles: true),
-                                  ),
-                                ),
-                                gridData: FlGridData(show: true),
-                                borderData: FlBorderData(show: true),
-                              ),
-                            );
+                            return CryptoChartDataWidget(chartData: data);
                           }
 
                           return const SizedBox.shrink();
@@ -179,11 +125,4 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
       ),
     );
   }
-}
-
-double _getTimeInterval(List<CryptoChartEntity> data) {
-  if (data.length < 2) return 1;
-  final diff = data[1].openTime.difference(data[0].openTime).inMinutes;
-  return data.first.openTime.millisecondsSinceEpoch.toDouble() +
-      (diff * 60 * 1000);
 }
