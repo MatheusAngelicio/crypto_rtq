@@ -23,7 +23,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   late final CryptoChartCubit _cryptoChartCubit;
 
   late String symbol;
-  String selectedInterval = '1h'; // Intervalo padrão
+  String selectedInterval = '1h';
   int selectedLimit = 30;
 
   @override
