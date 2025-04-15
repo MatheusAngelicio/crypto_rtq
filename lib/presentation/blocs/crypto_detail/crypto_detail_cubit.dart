@@ -11,7 +11,7 @@ class CryptoDetailCubit extends Cubit<CryptoDetailState> {
   Future<void> load(String symbol) async {
     emit(CryptoDetailLoading());
 
-    final result = await _getCryptoDetailUseCase(symbol);
+    final result = await _getCryptoDetailUseCase.getDetail(symbol);
 
     result.fold(
       (failure) => emit(CryptoDetailError(failure.message)),

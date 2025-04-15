@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:crypto_rtq/core/config/api_config.dart';
+import 'package:crypto_rtq/core/exception/crypto_exception.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:crypto_rtq/data/datasources/ticker/ticker_stream_datasource.dart';
 import 'package:crypto_rtq/data/models/ticker_model.dart';
@@ -20,7 +21,7 @@ class TickerStreamDatasourceImpl implements TickerStreamDatasource {
         AppLogger.success('[WebSocket] Connected successfully: $symbol');
       } catch (e) {
         AppLogger.error('[WebSocket] Connection failed with $symbol: $e');
-        rethrow;
+        throw CryptoException('Failed to connect to WebSocket for $symbol.');
       }
     }
 
@@ -31,23 +32,35 @@ class TickerStreamDatasourceImpl implements TickerStreamDatasource {
         final data = jsonDecode(event);
         return TickerModel.fromWsJson(data);
       } catch (e) {
-        AppLogger.error('[WebSocket] Error processing message: $e');
-        throw Exception('Error processing WebSocket data');
+        AppLogger.error('[WebSocket] Error processing message for $symbol: $e');
+        throw CryptoException('Error processing WebSocket data for $symbol.');
       }
     });
   }
 
   @override
   void unsubscribe(String symbol) {
-    _channels[symbol]?.sink.close();
-    _channels.remove(symbol);
+    try {
+      _channels[symbol]?.sink.close();
+      _channels.remove(symbol);
+      AppLogger.success('[WebSocket] Unsubscribed from $symbol');
+    } catch (e) {
+      AppLogger.error('[WebSocket] Error unsubscribing from $symbol: $e');
+      throw CryptoException('Failed to unsubscribe from $symbol.');
+    }
   }
 
   @override
   void dispose() {
-    for (final channel in _channels.values) {
-      channel.sink.close();
+    try {
+      for (final channel in _channels.values) {
+        channel.sink.close();
+      }
+      _channels.clear();
+      AppLogger.success('[WebSocket] All channels closed and disposed.');
+    } catch (e) {
+      AppLogger.error('[WebSocket] Error disposing channels: $e');
+      throw CryptoException('Failed to dispose WebSocket channels.');
     }
-    _channels.clear();
   }
 }
