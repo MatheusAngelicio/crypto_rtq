@@ -14,6 +14,8 @@ class TickerUtils {
   }
 
   static String formatPrice({required String priceStr, bool toBRL = false}) {
-    return CurrencyUtils.formatFromString(priceStr: priceStr, toBRL: toBRL);
+    final price = double.tryParse(priceStr) ?? 0;
+    final converted = CurrencyUtils.convert(price, toBRL: toBRL);
+    return CurrencyUtils.format(value: converted, toBRL: toBRL);
   }
 }
