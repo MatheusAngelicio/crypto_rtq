@@ -25,8 +25,8 @@ class IntervalSelectorWidget extends StatelessWidget {
 
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: isSelected ? Colors.black : Colors.grey[300],
-            foregroundColor: isSelected ? Colors.white : Colors.black,
+            backgroundColor: isSelected ? Colors.white : Colors.black,
+            foregroundColor: isSelected ? Colors.black : Colors.grey[300],
           ),
           onPressed: () => onIntervalSelected(interval),
           child: Text(label),
