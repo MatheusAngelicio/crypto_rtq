@@ -3,9 +3,12 @@ import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.da
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_state.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_state.dart';
 import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
 import 'package:crypto_rtq/presentation/views/details/widgets/crypto_chart_data_widget.dart';
 import 'package:crypto_rtq/presentation/views/details/widgets/crypto_price_details_widget.dart';
+import 'package:crypto_rtq/presentation/views/details/widgets/interval_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,26 +24,36 @@ class CryptoDetailPage extends StatefulWidget {
 class _CryptoDetailPageState extends State<CryptoDetailPage> {
   late final CryptoDetailCubit _cryptoDetailCubit;
   late final CryptoChartCubit _cryptoChartCubit;
+  late final CryptoIntervalCubit _cryptoIntervalCubit;
 
   late String symbol;
-  String selectedInterval = '1h';
-  int selectedLimit = 30;
 
   @override
   void initState() {
     super.initState();
     symbol = widget.arguments.tickerEntity.symbol;
+    _cryptoDetailCubit = context.read<CryptoDetailCubit>();
+    _cryptoChartCubit = context.read<CryptoChartCubit>();
+    _cryptoIntervalCubit = context.read<CryptoIntervalCubit>();
     _loadCryptoDetail();
   }
 
+  @override
+  void dispose() {
+    _cryptoDetailCubit.reset();
+    _cryptoChartCubit.reset();
+    _cryptoIntervalCubit.reset();
+    super.dispose();
+  }
+
   void _loadCryptoDetail() {
-    _cryptoDetailCubit = context.read<CryptoDetailCubit>()..load(symbol);
+    context.read<CryptoDetailCubit>().load(symbol);
   }
 
   void _loadChartData() {
-    _cryptoChartCubit =
-        context.read<CryptoChartCubit>()
-          ..load(symbol, selectedInterval, selectedLimit);
+    final intervalState = _cryptoIntervalCubit.state;
+
+    _cryptoChartCubit.load(symbol, intervalState.interval, intervalState.limit);
   }
 
   @override
@@ -56,7 +69,6 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
         bloc: _cryptoDetailCubit,
         listener: (context, state) {
           if (state is CryptoDetailLoaded || state is CryptoDetailError) {
-            // Quando carregar ou der erro, chama o chart
             _loadChartData();
           }
         },
@@ -89,6 +101,21 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: 16),
+                    BlocBuilder<CryptoIntervalCubit, CryptoIntervalState>(
+                      bloc: _cryptoIntervalCubit,
+                      builder: (context, intervalState) {
+                        return IntervalSelectorWidget(
+                          selectedInterval: intervalState.interval,
+                          onIntervalSelected: (interval) {
+                            context.read<CryptoIntervalCubit>().selectInterval(
+                              interval,
+                            );
+                            _loadChartData();
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     Expanded(
                       child: BlocBuilder<CryptoChartCubit, CryptoChartState>(
                         bloc: _cryptoChartCubit,
@@ -98,13 +125,11 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                               child: CircularProgressIndicator(),
                             );
                           }
-
                           if (state is CryptoChartError) {
                             return Center(
                               child: Text('Error: ${state.message}'),
                             );
                           }
-
                           if (state is CryptoChartLoaded) {
                             final data = state.chartData;
                             return CryptoChartDataWidget(
@@ -112,7 +137,6 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                               isBRL: widget.arguments.isBRL,
                             );
                           }
-
                           return const SizedBox.shrink();
                         },
                       ),

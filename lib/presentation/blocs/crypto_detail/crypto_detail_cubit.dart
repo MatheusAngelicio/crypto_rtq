@@ -18,4 +18,8 @@ class CryptoDetailCubit extends Cubit<CryptoDetailState> {
       (entity) => emit(CryptoDetailLoaded(entity)),
     );
   }
+
+  void reset() {
+    emit(CryptoDetailInitial());
+  }
 }

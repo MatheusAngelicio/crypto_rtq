@@ -7,6 +7,7 @@ import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_detail_useca
 import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_detail_usecase_impl.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<RepositoryProvider> cryptoRepositories = [
@@ -38,4 +39,5 @@ List<BlocProvider> cryptoBlocs = [
     create:
         (context) => CryptoChartCubit(context.read<GetCryptoDetailUseCase>()),
   ),
+  BlocProvider<CryptoIntervalCubit>(create: (context) => CryptoIntervalCubit()),
 ];

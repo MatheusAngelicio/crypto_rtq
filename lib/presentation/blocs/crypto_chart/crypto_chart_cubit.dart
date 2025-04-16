@@ -21,4 +21,8 @@ class CryptoChartCubit extends Cubit<CryptoChartState> {
       (chartData) => emit(CryptoChartLoaded(chartData)),
     );
   }
+
+  void reset() {
+    emit(CryptoChartInitial());
+  }
 }
