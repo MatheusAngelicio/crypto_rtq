@@ -12,7 +12,7 @@ class CryptoChartCubit extends Cubit<CryptoChartState> {
 
     final result = await _getCryptoDetailUseCase.getChartData(
       symbol,
-      interval,
+      interval.toLowerCase(),
       limit,
     );
 
