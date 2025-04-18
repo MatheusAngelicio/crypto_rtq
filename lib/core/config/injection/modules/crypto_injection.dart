@@ -16,12 +16,14 @@ List<RepositoryProvider> cryptoRepositories = [
         (context) =>
             CryptoDetailDatasourceImpl(dioClient: context.read<DioClient>()),
   ),
+
   RepositoryProvider<CryptoDetailRepository>(
     create:
         (context) => CryptoDetailRepositoryImpl(
           datasource: context.read<CryptoDetailDatasource>(),
         ),
   ),
+
   RepositoryProvider<GetCryptoDetailUseCase>(
     create:
         (context) => GetCryptoDetailUseCaseImpl(
@@ -35,9 +37,11 @@ List<BlocProvider> cryptoBlocs = [
     create:
         (context) => CryptoDetailCubit(context.read<GetCryptoDetailUseCase>()),
   ),
+
   BlocProvider<CryptoChartCubit>(
     create:
         (context) => CryptoChartCubit(context.read<GetCryptoDetailUseCase>()),
   ),
+
   BlocProvider<CryptoIntervalCubit>(create: (context) => CryptoIntervalCubit()),
 ];

@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:crypto_rtq/core/config/api_config.dart';
 import 'package:crypto_rtq/core/exception/crypto_exception.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
-import 'package:crypto_rtq/data/datasources/ticker/ticker_stream_datasource.dart';
+import 'package:crypto_rtq/data/datasources/ticker/get_ticker_prices_stream_datasource.dart';
 import 'package:crypto_rtq/data/models/ticker_model.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class TickerStreamDatasourceImpl implements TickerStreamDatasource {
+class GetTickerPricesStreamDatasourceImpl
+    implements GetTickerPricesStreamDatasource {
   final Map<String, WebSocketChannel> _channels = {};
 
   @override
