@@ -4,22 +4,24 @@ import '../datasources/ticker/get_ticker_prices_stream_datasource.dart';
 
 class GetTickerPricesStreamRepositoryImpl
     implements GetTickerPricesStreamRepository {
-  final GetTickerPricesStreamDatasource datasource;
+  GetTickerPricesStreamRepositoryImpl({
+    required GetTickerPricesStreamDatasource datasource,
+  }) : _datasource = datasource;
 
-  GetTickerPricesStreamRepositoryImpl({required this.datasource});
+  final GetTickerPricesStreamDatasource _datasource;
 
   @override
   Stream<TickerEntity> subscribeTicker(String symbol) {
-    return datasource.connect(symbol);
+    return _datasource.connect(symbol);
   }
 
   @override
   void unsubscribe(String symbol) {
-    datasource.unsubscribe(symbol);
+    _datasource.unsubscribe(symbol);
   }
 
   @override
   void dispose() {
-    datasource.dispose();
+    _datasource.dispose();
   }
 }

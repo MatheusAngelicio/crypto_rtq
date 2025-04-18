@@ -7,13 +7,14 @@ import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_detail_useca
 import 'package:dartz/dartz.dart';
 
 class GetCryptoDetailUseCaseImpl implements GetCryptoDetailUseCase {
-  final CryptoDetailRepository repository;
+  GetCryptoDetailUseCaseImpl({required CryptoDetailRepository repository})
+    : _repository = repository;
 
-  GetCryptoDetailUseCaseImpl({required this.repository});
+  final CryptoDetailRepository _repository;
 
   @override
   Future<Either<Failure, CryptoDetailEntity>> getDetail(String symbol) {
-    return repository.getDetail(symbol);
+    return _repository.getDetail(symbol);
   }
 
   @override
@@ -22,6 +23,6 @@ class GetCryptoDetailUseCaseImpl implements GetCryptoDetailUseCase {
     ChartInterval interval,
     int limit,
   ) {
-    return repository.getChartData(symbol, interval, limit);
+    return _repository.getChartData(symbol, interval, limit);
   }
 }

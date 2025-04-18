@@ -3,10 +3,11 @@ import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CryptoDetailCubit extends Cubit<CryptoDetailState> {
-  CryptoDetailCubit(this._getCryptoDetailUseCase)
-    : super(CryptoDetailInitial());
-
   final GetCryptoDetailUseCase _getCryptoDetailUseCase;
+
+  CryptoDetailCubit({required GetCryptoDetailUseCase getCryptoDetailUseCase})
+    : _getCryptoDetailUseCase = getCryptoDetailUseCase,
+      super(CryptoDetailInitial());
 
   Future<void> load(String symbol) async {
     emit(CryptoDetailLoading());

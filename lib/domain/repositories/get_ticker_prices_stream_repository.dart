@@ -1,6 +1,6 @@
 import '../entities/ticker_entity.dart';
 
-abstract class GetTickerPricesStreamRepository {
+abstract interface class GetTickerPricesStreamRepository {
   Stream<TickerEntity> subscribeTicker(String symbol);
 
   void unsubscribe(String symbol);

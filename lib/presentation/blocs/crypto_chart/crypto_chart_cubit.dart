@@ -4,9 +4,11 @@ import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_state.da
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CryptoChartCubit extends Cubit<CryptoChartState> {
-  CryptoChartCubit(this._getCryptoDetailUseCase) : super(CryptoChartInitial());
-
   final GetCryptoDetailUseCase _getCryptoDetailUseCase;
+
+  CryptoChartCubit({required GetCryptoDetailUseCase getCryptoDetailUseCase})
+    : _getCryptoDetailUseCase = getCryptoDetailUseCase,
+      super(CryptoChartInitial());
 
   Future<void> load(String symbol, ChartInterval interval, int limit) async {
     emit(CryptoChartLoading());

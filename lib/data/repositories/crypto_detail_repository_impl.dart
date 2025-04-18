@@ -7,14 +7,15 @@ import 'package:crypto_rtq/domain/repositories/crypto_detail_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class CryptoDetailRepositoryImpl implements CryptoDetailRepository {
-  final CryptoDetailDatasource datasource;
+  CryptoDetailRepositoryImpl({required CryptoDetailDatasource datasource})
+    : _datasource = datasource;
 
-  CryptoDetailRepositoryImpl({required this.datasource});
+  final CryptoDetailDatasource _datasource;
 
   @override
   Future<Either<Failure, CryptoDetailEntity>> getDetail(String symbol) async {
     try {
-      final result = await datasource.getDetail(symbol);
+      final result = await _datasource.getDetail(symbol);
       return Right(result);
     } catch (e) {
       return Left(
@@ -30,7 +31,7 @@ class CryptoDetailRepositoryImpl implements CryptoDetailRepository {
     int limit,
   ) async {
     try {
-      final result = await datasource.getChartData(symbol, interval, limit);
+      final result = await _datasource.getChartData(symbol, interval, limit);
       return Right(result);
     } catch (e) {
       return Left(ServerFailure('Error fetching chart data: ${e.toString()}'));

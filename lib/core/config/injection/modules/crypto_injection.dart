@@ -35,12 +35,16 @@ List<RepositoryProvider> cryptoRepositories = [
 List<BlocProvider> cryptoBlocs = [
   BlocProvider<CryptoDetailCubit>(
     create:
-        (context) => CryptoDetailCubit(context.read<GetCryptoDetailUseCase>()),
+        (context) => CryptoDetailCubit(
+          getCryptoDetailUseCase: context.read<GetCryptoDetailUseCase>(),
+        ),
   ),
 
   BlocProvider<CryptoChartCubit>(
     create:
-        (context) => CryptoChartCubit(context.read<GetCryptoDetailUseCase>()),
+        (context) => CryptoChartCubit(
+          getCryptoDetailUseCase: context.read<GetCryptoDetailUseCase>(),
+        ),
   ),
 
   BlocProvider<CryptoIntervalCubit>(create: (context) => CryptoIntervalCubit()),

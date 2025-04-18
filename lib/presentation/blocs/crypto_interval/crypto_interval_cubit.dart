@@ -15,10 +15,20 @@ class CryptoIntervalCubit extends Cubit<CryptoIntervalState> {
       );
 
   void selectInterval(ChartInterval interval) {
-    int limit = _getLimitByInterval(interval);
+    final limit = _getLimitByInterval(interval);
     emit(state.copyWith(interval: interval, limit: limit));
   }
 
+  void reset() {
+    emit(
+      const CryptoIntervalState(
+        interval: _defaultInterval,
+        limit: _defaultLimit,
+      ),
+    );
+  }
+
+  // Tirar essa lógica do cubit depois
   int _getLimitByInterval(ChartInterval interval) {
     switch (interval) {
       case ChartInterval.hour1:
@@ -32,14 +42,5 @@ class CryptoIntervalCubit extends Cubit<CryptoIntervalState> {
       default:
         return 30;
     }
-  }
-
-  void reset() {
-    emit(
-      const CryptoIntervalState(
-        interval: _defaultInterval,
-        limit: _defaultLimit,
-      ),
-    );
   }
 }

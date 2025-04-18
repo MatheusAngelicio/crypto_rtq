@@ -10,14 +10,15 @@ import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
 
 class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
-  final DioClient dioClient;
+  CryptoDetailDatasourceImpl({required DioClient dioClient})
+    : _dioClient = dioClient;
 
-  CryptoDetailDatasourceImpl({required this.dioClient});
+  final DioClient _dioClient;
 
   @override
   Future<CryptoDetailEntity> getDetail(String symbol) async {
     try {
-      final response = await dioClient.dio.get(
+      final response = await _dioClient.dio.get(
         ApiEndpoints.tickerDetail,
         queryParameters: {'symbol': symbol},
       );
@@ -43,7 +44,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
     int limit,
   ) async {
     try {
-      final response = await dioClient.dio.get(
+      final response = await _dioClient.dio.get(
         ApiEndpoints.chartData,
         queryParameters: {
           'symbol': symbol,

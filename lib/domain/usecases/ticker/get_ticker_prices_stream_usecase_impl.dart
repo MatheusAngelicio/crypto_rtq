@@ -3,22 +3,24 @@ import 'package:crypto_rtq/domain/repositories/get_ticker_prices_stream_reposito
 import 'package:crypto_rtq/domain/usecases/ticker/get_ticker_prices_stream_usecase.dart';
 
 class GetTickerPricesStreamUsecaseImpl implements GetTickerPricesStreamUsecase {
-  final GetTickerPricesStreamRepository repository;
+  GetTickerPricesStreamUsecaseImpl({
+    required GetTickerPricesStreamRepository repository,
+  }) : _repository = repository;
 
-  GetTickerPricesStreamUsecaseImpl({required this.repository});
+  final GetTickerPricesStreamRepository _repository;
 
   @override
   Stream<TickerEntity> call(String symbol) {
-    return repository.subscribeTicker(symbol);
+    return _repository.subscribeTicker(symbol);
   }
 
   @override
   void unsubscribe(String symbol) {
-    repository.unsubscribe(symbol);
+    _repository.unsubscribe(symbol);
   }
 
   @override
   void dispose() {
-    repository.dispose();
+    _repository.dispose();
   }
 }

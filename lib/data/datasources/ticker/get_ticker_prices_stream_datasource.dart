@@ -1,6 +1,6 @@
 import '../../models/ticker_model.dart';
 
-abstract class GetTickerPricesStreamDatasource {
+abstract interface class GetTickerPricesStreamDatasource {
   Stream<TickerModel> connect(String symbol);
   void unsubscribe(String symbol);
   void dispose();

@@ -11,14 +11,12 @@ List<RepositoryProvider> tickerRepositories = [
   RepositoryProvider<GetTickerPricesStreamDatasource>(
     create: (_) => GetTickerPricesStreamDatasourceImpl(),
   ),
-
   RepositoryProvider<GetTickerPricesStreamRepository>(
     create:
         (context) => GetTickerPricesStreamRepositoryImpl(
           datasource: context.read<GetTickerPricesStreamDatasource>(),
         ),
   ),
-
   RepositoryProvider<GetTickerPricesStreamUsecase>(
     create:
         (context) => GetTickerPricesStreamUsecaseImpl(
@@ -30,6 +28,8 @@ List<RepositoryProvider> tickerRepositories = [
 List<BlocProvider> tickerBlocs = [
   BlocProvider<TickerCubit>(
     create:
-        (context) => TickerCubit(context.read<GetTickerPricesStreamUsecase>()),
+        (context) => TickerCubit(
+          getPriceStreamUseCase: context.read<GetTickerPricesStreamUsecase>(),
+        ),
   ),
 ];
