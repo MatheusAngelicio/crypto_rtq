@@ -1,4 +1,4 @@
-import 'package:crypto_rtq/core/config/api_config.dart';
+import 'package:crypto_rtq/core/constants/api_endpoints.dart';
 import 'package:dio/dio.dart';
 import 'interceptors/log_interceptor.dart';
 
@@ -8,7 +8,7 @@ class DioClient {
   DioClient()
     : dio = Dio(
         BaseOptions(
-          baseUrl: ApiConfig.baseUrl,
+          baseUrl: ApiEndpoints.baseUrl,
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 15),
           sendTimeout: const Duration(seconds: 10),

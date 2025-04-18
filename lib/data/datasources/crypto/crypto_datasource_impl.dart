@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/constants/api_endpoints.dart';
 import 'package:crypto_rtq/core/enums/chart_inverval.dart';
 import 'package:crypto_rtq/core/exception/crypto_exception.dart';
 import 'package:crypto_rtq/core/network/dio_client.dart';
@@ -17,7 +18,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
   Future<CryptoDetailEntity> getDetail(String symbol) async {
     try {
       final response = await dioClient.dio.get(
-        '/ticker/24hr',
+        ApiEndpoints.tickerDetail,
         queryParameters: {'symbol': symbol},
       );
 
@@ -43,7 +44,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
   ) async {
     try {
       final response = await dioClient.dio.get(
-        '/klines',
+        ApiEndpoints.chartData,
         queryParameters: {
           'symbol': symbol,
           'interval': interval.apiValue,

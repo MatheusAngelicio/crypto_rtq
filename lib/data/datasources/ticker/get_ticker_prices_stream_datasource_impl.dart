@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:crypto_rtq/core/config/api_config.dart';
+import 'package:crypto_rtq/core/constants/api_endpoints.dart';
 import 'package:crypto_rtq/core/exception/crypto_exception.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:crypto_rtq/data/datasources/ticker/get_ticker_prices_stream_datasource.dart';
@@ -12,7 +12,7 @@ class GetTickerPricesStreamDatasourceImpl
 
   @override
   Stream<TickerModel> connect(String symbol) {
-    final wsUrl = ApiConfig.wsUrl;
+    final wsUrl = ApiEndpoints.wsUrl;
     final lowerSymbol = symbol.toLowerCase();
     final url = '$wsUrl/$lowerSymbol@trade';
 
