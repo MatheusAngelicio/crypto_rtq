@@ -1,8 +1,9 @@
+import 'package:crypto_rtq/core/enums/chart_inverval.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'crypto_interval_state.dart';
 
 class CryptoIntervalCubit extends Cubit<CryptoIntervalState> {
-  static const String _defaultInterval = '1h';
+  static const ChartInterval _defaultInterval = ChartInterval.hour1;
   static const int _defaultLimit = 30;
 
   CryptoIntervalCubit()
@@ -13,20 +14,20 @@ class CryptoIntervalCubit extends Cubit<CryptoIntervalState> {
         ),
       );
 
-  void selectInterval(String interval) {
+  void selectInterval(ChartInterval interval) {
     int limit = _getLimitByInterval(interval);
     emit(state.copyWith(interval: interval, limit: limit));
   }
 
-  int _getLimitByInterval(String interval) {
+  int _getLimitByInterval(ChartInterval interval) {
     switch (interval) {
-      case '1h':
+      case ChartInterval.hour1:
         return 30;
-      case '1d':
+      case ChartInterval.day1:
         return 24;
-      case '1s':
+      case ChartInterval.second1:
         return 7;
-      case '1m':
+      case ChartInterval.minute1:
         return 30;
       default:
         return 30;
@@ -34,6 +35,11 @@ class CryptoIntervalCubit extends Cubit<CryptoIntervalState> {
   }
 
   void reset() {
-    emit(CryptoIntervalState(interval: _defaultInterval, limit: _defaultLimit));
+    emit(
+      const CryptoIntervalState(
+        interval: _defaultInterval,
+        limit: _defaultLimit,
+      ),
+    );
   }
 }

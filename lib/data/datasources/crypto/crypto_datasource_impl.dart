@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/enums/chart_inverval.dart';
 import 'package:crypto_rtq/core/exception/crypto_exception.dart';
 import 'package:crypto_rtq/core/network/dio_client.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
@@ -37,7 +38,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
   @override
   Future<List<CryptoChartEntity>> getChartData(
     String symbol,
-    String interval,
+    ChartInterval interval,
     int limit,
   ) async {
     try {
@@ -45,7 +46,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
         '/klines',
         queryParameters: {
           'symbol': symbol,
-          'interval': interval,
+          'interval': interval.apiValue,
           'limit': limit,
         },
       );

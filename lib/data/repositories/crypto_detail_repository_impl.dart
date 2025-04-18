@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/enums/chart_inverval.dart';
 import 'package:crypto_rtq/core/errors/failure.dart';
 import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
@@ -25,7 +26,7 @@ class CryptoDetailRepositoryImpl implements CryptoDetailRepository {
   @override
   Future<Either<Failure, List<CryptoChartEntity>>> getChartData(
     String symbol,
-    String interval,
+    ChartInterval interval,
     int limit,
   ) async {
     try {
