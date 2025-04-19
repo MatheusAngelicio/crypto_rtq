@@ -1,5 +1,6 @@
 import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
 import 'package:crypto_rtq/core/extensions/chart_interval_extension.dart';
+import 'package:crypto_rtq/core/utils/chart_util.dart';
 import 'package:crypto_rtq/core/utils/currency_util.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +52,7 @@ class CryptoChartDataWidget extends StatelessWidget {
           yValueMapper:
               (CryptoChartEntity data, _) =>
                   CurrencyUtils.convert(data.close, toBRL: isBRL),
-
-          color: Colors.cyan,
+          color: ChartUtils.getTrendColor(chartData, isBRL),
           width: 2,
           animationDuration: 1500,
           markerSettings: const MarkerSettings(isVisible: false),
