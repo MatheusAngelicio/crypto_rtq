@@ -1,4 +1,4 @@
-import 'package:crypto_rtq/core/enums/chart_inverval.dart';
+import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
 import 'package:crypto_rtq/core/errors/failure.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
@@ -20,9 +20,8 @@ class GetCryptoDetailUseCaseImpl implements GetCryptoDetailUseCase {
   @override
   Future<Either<Failure, List<CryptoChartEntity>>> getChartData(
     String symbol,
-    ChartInterval interval,
-    int limit,
+    ChartIntervalEnum interval,
   ) {
-    return _repository.getChartData(symbol, interval, limit);
+    return _repository.getChartData(symbol, interval);
   }
 }

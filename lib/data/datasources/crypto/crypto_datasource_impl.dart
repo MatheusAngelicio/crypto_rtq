@@ -1,6 +1,7 @@
 import 'package:crypto_rtq/core/constants/api_endpoints.dart';
-import 'package:crypto_rtq/core/enums/chart_inverval.dart';
+import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
 import 'package:crypto_rtq/core/exception/crypto_exception.dart';
+import 'package:crypto_rtq/core/extensions/chart_interval_extension.dart';
 import 'package:crypto_rtq/core/network/dio_client.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource.dart';
@@ -40,8 +41,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
   @override
   Future<List<CryptoChartEntity>> getChartData(
     String symbol,
-    ChartInterval interval,
-    int limit,
+    ChartIntervalEnum interval,
   ) async {
     try {
       final response = await _dioClient.dio.get(
@@ -49,7 +49,9 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
         queryParameters: {
           'symbol': symbol,
           'interval': interval.apiValue,
-          'limit': limit,
+          'startTime': interval.startTime.millisecondsSinceEpoch,
+          'endTime': interval.endTime.millisecondsSinceEpoch,
+          'timeZone': '0',
         },
       );
 

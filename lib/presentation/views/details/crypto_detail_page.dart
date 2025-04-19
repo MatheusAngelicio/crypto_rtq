@@ -53,7 +53,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   void _loadChartData() {
     final intervalState = _cryptoIntervalCubit.state;
 
-    _cryptoChartCubit.load(symbol, intervalState.interval, intervalState.limit);
+    _cryptoChartCubit.load(symbol, intervalState.interval);
   }
 
   @override
@@ -107,14 +107,13 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                         return IntervalSelectorWidget(
                           selectedInterval: intervalState.interval,
                           onIntervalSelected: (interval) {
-                            context.read<CryptoIntervalCubit>().selectInterval(
-                              interval,
-                            );
+                            _cryptoIntervalCubit.selectInterval(interval);
                             _loadChartData();
                           },
                         );
                       },
                     ),
+
                     const SizedBox(height: 16),
                     Expanded(
                       child: BlocBuilder<CryptoChartCubit, CryptoChartState>(

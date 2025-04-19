@@ -1,4 +1,4 @@
-import 'package:crypto_rtq/core/enums/chart_inverval.dart';
+import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
 import 'package:crypto_rtq/core/errors/failure.dart';
 import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
@@ -27,11 +27,10 @@ class CryptoDetailRepositoryImpl implements CryptoDetailRepository {
   @override
   Future<Either<Failure, List<CryptoChartEntity>>> getChartData(
     String symbol,
-    ChartInterval interval,
-    int limit,
+    ChartIntervalEnum interval,
   ) async {
     try {
-      final result = await _datasource.getChartData(symbol, interval, limit);
+      final result = await _datasource.getChartData(symbol, interval);
       return Right(result);
     } catch (e) {
       return Left(ServerFailure('Error fetching chart data: ${e.toString()}'));
