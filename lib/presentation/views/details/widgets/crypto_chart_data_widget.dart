@@ -25,6 +25,12 @@ class CryptoChartDataWidget extends StatelessWidget {
     }
 
     return SfCartesianChart(
+      tooltipBehavior: TooltipBehavior(enable: true, header: ''),
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePinching: true,
+        enablePanning: true,
+      ),
+      crosshairBehavior: CrosshairBehavior(enable: true),
       primaryXAxis: DateTimeAxis(
         intervalType: interval.intervalType,
         dateFormat: interval.dateFormat,
@@ -45,8 +51,10 @@ class CryptoChartDataWidget extends StatelessWidget {
           yValueMapper:
               (CryptoChartEntity data, _) =>
                   CurrencyUtils.convert(data.close, toBRL: isBRL),
+
           color: Colors.cyan,
           width: 2,
+          animationDuration: 1500,
           markerSettings: const MarkerSettings(isVisible: false),
         ),
       ],
