@@ -31,9 +31,16 @@ class CryptoPriceDetailsWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Crypto Overview',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                const Text(
+                  'Crypto Overview',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(width: 16),
+
+                Text('(Last 24hrs)', style: TextStyle(fontSize: 12)),
+              ],
             ),
             const SizedBox(height: 16),
 
