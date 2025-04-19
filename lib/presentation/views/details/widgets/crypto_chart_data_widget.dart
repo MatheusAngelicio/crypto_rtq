@@ -1,3 +1,5 @@
+import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
+import 'package:crypto_rtq/core/extensions/chart_interval_extension.dart';
 import 'package:crypto_rtq/core/utils/currency_util.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +11,12 @@ class CryptoChartDataWidget extends StatelessWidget {
     super.key,
     required this.chartData,
     required this.isBRL,
+    required this.interval,
   });
 
   final List<CryptoChartEntity> chartData;
   final bool isBRL;
+  final ChartIntervalEnum interval;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +26,8 @@ class CryptoChartDataWidget extends StatelessWidget {
 
     return SfCartesianChart(
       primaryXAxis: DateTimeAxis(
-        intervalType: DateTimeIntervalType.minutes,
-        dateFormat: DateFormat.Hm(),
+        intervalType: interval.intervalType,
+        dateFormat: interval.dateFormat,
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(

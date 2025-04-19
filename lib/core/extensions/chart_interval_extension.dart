@@ -1,4 +1,6 @@
 import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 extension ChartIntervalExtension on ChartIntervalEnum {
   /// Exibe label para os botões.
@@ -46,4 +48,27 @@ extension ChartIntervalExtension on ChartIntervalEnum {
 
   /// Define o tempo final da consulta.
   DateTime get endTime => DateTime.now();
+
+  DateTimeIntervalType get intervalType {
+    switch (this) {
+      case ChartIntervalEnum.hour1:
+        return DateTimeIntervalType.minutes;
+      case ChartIntervalEnum.day1:
+        return DateTimeIntervalType.hours;
+      case ChartIntervalEnum.week1:
+      case ChartIntervalEnum.month1:
+        return DateTimeIntervalType.days;
+    }
+  }
+
+  DateFormat get dateFormat {
+    switch (this) {
+      case ChartIntervalEnum.hour1:
+      case ChartIntervalEnum.day1:
+        return DateFormat.Hm(); // Ex: 12:45
+      case ChartIntervalEnum.week1:
+      case ChartIntervalEnum.month1:
+        return DateFormat.MMMd(); // Ex: Apr 16
+    }
+  }
 }

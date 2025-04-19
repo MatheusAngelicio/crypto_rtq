@@ -47,12 +47,11 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   }
 
   void _loadCryptoDetail() {
-    context.read<CryptoDetailCubit>().load(symbol);
+    _cryptoDetailCubit.load(symbol);
   }
 
   void _loadChartData() {
     final intervalState = _cryptoIntervalCubit.state;
-
     _cryptoChartCubit.load(symbol, intervalState.interval);
   }
 
@@ -134,6 +133,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                             return CryptoChartDataWidget(
                               chartData: data,
                               isBRL: widget.arguments.isBRL,
+                              interval: _cryptoIntervalCubit.state.interval,
                             );
                           }
                           return const SizedBox.shrink();
@@ -143,7 +143,6 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                   ],
                 );
               }
-
               return const SizedBox.shrink();
             },
           ),
