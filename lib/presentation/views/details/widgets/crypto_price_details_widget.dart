@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/utils/chart_util.dart';
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
 import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
 import 'package:crypto_rtq/presentation/views/details/widgets/crypto_data_row_details_widget.dart';
@@ -88,6 +89,8 @@ class CryptoPriceDetailsWidget extends StatelessWidget {
               duration: const Duration(milliseconds: 800),
               curve: Curves.easeOut,
               builder: (context, animatedProgress, _) {
+                final barColor = ChartUtils.getBarColor(animatedProgress);
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -101,10 +104,10 @@ class CryptoPriceDetailsWidget extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               gradient: LinearGradient(
-                                colors:
-                                    isNegative
-                                        ? [Colors.red.shade400, Colors.red]
-                                        : [Colors.green.shade400, Colors.green],
+                                colors: [
+                                  barColor.withValues(alpha: .7),
+                                  barColor,
+                                ],
                               ),
                             ),
                             width:
@@ -129,7 +132,7 @@ class CryptoPriceDetailsWidget extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: isNegative ? Colors.red : Colors.green,
+                                color: barColor,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(

@@ -13,4 +13,14 @@ class ChartUtils {
 
     return lastValue >= firstValue ? Colors.green : Colors.red;
   }
+
+  static Color getBarColor(double progress) {
+    if (progress >= 0.75) {
+      return Colors.red;
+    } else if (progress >= 0.5) {
+      return Colors.orange;
+    } else {
+      return Colors.green;
+    }
+  }
 }
