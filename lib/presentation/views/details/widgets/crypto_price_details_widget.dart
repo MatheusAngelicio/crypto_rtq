@@ -33,15 +33,17 @@ class CryptoPriceDetailsWidget extends StatelessWidget {
           children: [
             Row(
               children: [
+                Icon(Icons.currency_exchange, size: 20, color: Colors.amber),
+                const SizedBox(width: 8),
                 const Text(
                   'Crypto Overview',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(width: 16),
-
                 Text('(Last 24hrs)', style: TextStyle(fontSize: 12)),
               ],
             ),
+
             const SizedBox(height: 16),
 
             CryptoDataRowDetailsWidget(
@@ -94,11 +96,21 @@ class CryptoPriceDetailsWidget extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: LinearProgressIndicator(
-                            value: animatedProgress,
-                            backgroundColor: Colors.grey.shade300,
-                            color: isNegative ? Colors.red : Colors.green,
-                            minHeight: 8,
+                          child: Container(
+                            height: 8,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              gradient: LinearGradient(
+                                colors:
+                                    isNegative
+                                        ? [Colors.red.shade400, Colors.red]
+                                        : [Colors.green.shade400, Colors.green],
+                              ),
+                            ),
+                            width:
+                                MediaQuery.of(context).size.width *
+                                0.7 *
+                                animatedProgress,
                           ),
                         ),
                         Positioned(

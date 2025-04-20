@@ -21,7 +21,7 @@ extension ChartIntervalExtension on ChartIntervalEnum {
   String get apiValue {
     switch (this) {
       case ChartIntervalEnum.hour1:
-        return '5m';
+        return '3m';
       case ChartIntervalEnum.day1:
         return '30m';
       case ChartIntervalEnum.week1:
