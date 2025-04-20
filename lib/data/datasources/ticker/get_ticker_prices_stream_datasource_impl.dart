@@ -31,7 +31,7 @@ class GetTickerPricesStreamDatasourceImpl
     return channel.stream.map((event) {
       try {
         final data = jsonDecode(event);
-        return TickerModel.fromWsJson(data);
+        return TickerModel.fromMap(data);
       } catch (e) {
         AppLogger.error('[WebSocket] Error processing message for $symbol: $e');
         throw CryptoException('Error processing WebSocket data for $symbol.');

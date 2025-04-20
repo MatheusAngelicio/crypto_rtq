@@ -29,7 +29,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Crypto Prices'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Crypto Prices'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.attach_money), // Ícone de dólar
+            onPressed: () {
+              print("Dólar icon clicked");
+              // Aqui você pode implementar a navegação ou lógica futura
+            },
+          ),
+        ],
+      ),
       body: BlocBuilder<TickerCubit, TickerState>(
         bloc: _tickerCubit,
         builder: (context, state) {

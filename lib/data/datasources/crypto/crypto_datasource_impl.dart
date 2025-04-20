@@ -25,7 +25,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        return CryptoDetailModel.fromJson(response.data).toEntity();
+        return CryptoDetailModel.fromMap(response.data);
       } else {
         AppLogger.error(
           '[Datasource] Unexpected response: ${response.statusCode} - ${response.data}',
@@ -57,9 +57,7 @@ class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data as List;
-        return data
-            .map((item) => CryptoChartModel.fromJson(item).toEntity())
-            .toList();
+        return data.map((item) => CryptoChartModel.fromMap(item)).toList();
       } else {
         AppLogger.error(
           '[Datasource] Unexpected chart response: ${response.statusCode} - ${response.data}',
