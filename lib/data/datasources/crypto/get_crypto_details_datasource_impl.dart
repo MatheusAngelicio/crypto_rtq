@@ -7,8 +7,6 @@ import 'package:crypto_rtq/core/utils/app_logger.dart';
 import 'package:crypto_rtq/data/datasources/crypto/get_crypto_details_datasource.dart';
 import 'package:crypto_rtq/data/models/crypto_chart_model.dart';
 import 'package:crypto_rtq/data/models/crypto_detail_model.dart';
-import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
-import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
 
 class GetCryptoDetailsDatasourceImpl implements GetCryptoDetailsDatasource {
   GetCryptoDetailsDatasourceImpl({required DioClient dioClient})
@@ -17,7 +15,7 @@ class GetCryptoDetailsDatasourceImpl implements GetCryptoDetailsDatasource {
   final DioClient _dioClient;
 
   @override
-  Future<CryptoDetailEntity> getDetail(String symbol) async {
+  Future<CryptoDetailModel> getDetail(String symbol) async {
     try {
       final response = await _dioClient.dio.get(
         ApiEndpoints.tickerDetail,
@@ -39,7 +37,7 @@ class GetCryptoDetailsDatasourceImpl implements GetCryptoDetailsDatasource {
   }
 
   @override
-  Future<List<CryptoChartEntity>> getChartData(
+  Future<List<CryptoChartModel>> getChartData(
     String symbol,
     ChartIntervalEnum interval,
   ) async {
