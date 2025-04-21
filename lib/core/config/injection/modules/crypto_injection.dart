@@ -1,49 +1,50 @@
 import 'package:crypto_rtq/core/network/dio_client.dart';
-import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource.dart';
-import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource_impl.dart';
-import 'package:crypto_rtq/data/repositories/crypto_detail_repository_impl.dart';
-import 'package:crypto_rtq/domain/repositories/crypto_detail_repository.dart';
-import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_detail_usecase.dart';
-import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_detail_usecase_impl.dart';
+import 'package:crypto_rtq/data/datasources/crypto/get_crypto_details_datasource.dart';
+import 'package:crypto_rtq/data/datasources/crypto/get_crypto_details_datasource_impl.dart';
+import 'package:crypto_rtq/data/repositories/get_crypto_details_repository_impl.dart';
+import 'package:crypto_rtq/domain/repositories/get_crypto_details_repository.dart';
+import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_details_usecase.dart';
+import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_details_usecase_impl.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<RepositoryProvider> cryptoRepositories = [
-  RepositoryProvider<CryptoDetailDatasource>(
+  RepositoryProvider<GetCryptoDetailsDatasource>(
     create:
-        (context) =>
-            CryptoDetailDatasourceImpl(dioClient: context.read<DioClient>()),
-  ),
-
-  RepositoryProvider<CryptoDetailRepository>(
-    create:
-        (context) => CryptoDetailRepositoryImpl(
-          datasource: context.read<CryptoDetailDatasource>(),
+        (context) => GetCryptoDetailsDatasourceImpl(
+          dioClient: context.read<DioClient>(),
         ),
   ),
 
-  RepositoryProvider<GetCryptoDetailUseCase>(
+  RepositoryProvider<GetCryptoDetailsRepository>(
     create:
-        (context) => GetCryptoDetailUseCaseImpl(
-          repository: context.read<CryptoDetailRepository>(),
+        (context) => GetCryptoDetailsRepositoryImpl(
+          datasource: context.read<GetCryptoDetailsDatasource>(),
+        ),
+  ),
+
+  RepositoryProvider<GetCryptoDetailsUseCase>(
+    create:
+        (context) => GetCryptoDetaislUseCaseImpl(
+          repository: context.read<GetCryptoDetailsRepository>(),
         ),
   ),
 ];
 
 List<BlocProvider> cryptoBlocs = [
-  BlocProvider<CryptoDetailCubit>(
+  BlocProvider<CryptoDetailsCubit>(
     create:
-        (context) => CryptoDetailCubit(
-          getCryptoDetailUseCase: context.read<GetCryptoDetailUseCase>(),
+        (context) => CryptoDetailsCubit(
+          getCryptoDetailUseCase: context.read<GetCryptoDetailsUseCase>(),
         ),
   ),
 
   BlocProvider<CryptoChartCubit>(
     create:
         (context) => CryptoChartCubit(
-          getCryptoDetailUseCase: context.read<GetCryptoDetailUseCase>(),
+          getCryptoDetailUseCase: context.read<GetCryptoDetailsUseCase>(),
         ),
   ),
 

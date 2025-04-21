@@ -1,16 +1,17 @@
 import 'package:crypto_rtq/core/enums/chart_inverval_enum.dart';
 import 'package:crypto_rtq/core/errors/failure.dart';
-import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource.dart';
+import 'package:crypto_rtq/data/datasources/crypto/get_crypto_details_datasource.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
-import 'package:crypto_rtq/domain/repositories/crypto_detail_repository.dart';
+import 'package:crypto_rtq/domain/repositories/get_crypto_details_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class CryptoDetailRepositoryImpl implements CryptoDetailRepository {
-  CryptoDetailRepositoryImpl({required CryptoDetailDatasource datasource})
-    : _datasource = datasource;
+class GetCryptoDetailsRepositoryImpl implements GetCryptoDetailsRepository {
+  GetCryptoDetailsRepositoryImpl({
+    required GetCryptoDetailsDatasource datasource,
+  }) : _datasource = datasource;
 
-  final CryptoDetailDatasource _datasource;
+  final GetCryptoDetailsDatasource _datasource;
 
   @override
   Future<Either<Failure, CryptoDetailEntity>> getDetail(String symbol) async {

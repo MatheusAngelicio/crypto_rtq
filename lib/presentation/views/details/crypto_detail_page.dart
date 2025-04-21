@@ -1,8 +1,8 @@
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_state.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_cubit.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_state.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_state.dart';
 import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
@@ -22,7 +22,7 @@ class CryptoDetailPage extends StatefulWidget {
 }
 
 class _CryptoDetailPageState extends State<CryptoDetailPage> {
-  late final CryptoDetailCubit _cryptoDetailCubit;
+  late final CryptoDetailsCubit _cryptoDetailCubit;
   late final CryptoChartCubit _cryptoChartCubit;
   late final CryptoIntervalCubit _cryptoIntervalCubit;
 
@@ -32,7 +32,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
   void initState() {
     super.initState();
     symbol = widget.arguments.tickerEntity.symbol;
-    _cryptoDetailCubit = context.read<CryptoDetailCubit>();
+    _cryptoDetailCubit = context.read<CryptoDetailsCubit>();
     _cryptoChartCubit = context.read<CryptoChartCubit>();
     _cryptoIntervalCubit = context.read<CryptoIntervalCubit>();
     _loadCryptoDetail();
@@ -64,7 +64,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
         ),
         centerTitle: true,
       ),
-      body: BlocListener<CryptoDetailCubit, CryptoDetailState>(
+      body: BlocListener<CryptoDetailsCubit, CryptoDetailsState>(
         bloc: _cryptoDetailCubit,
         listener: (context, state) {
           if (state is CryptoDetailLoaded || state is CryptoDetailError) {
@@ -73,7 +73,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
         },
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: BlocBuilder<CryptoDetailCubit, CryptoDetailState>(
+          child: BlocBuilder<CryptoDetailsCubit, CryptoDetailsState>(
             bloc: _cryptoDetailCubit,
             builder: (context, state) {
               if (state is CryptoDetailLoading) {

@@ -4,7 +4,7 @@ import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
 import 'package:dartz/dartz.dart';
 
-abstract interface class CryptoDetailRepository {
+abstract interface class GetCryptoDetailsUseCase {
   Future<Either<Failure, CryptoDetailEntity>> getDetail(String symbol);
   Future<Either<Failure, List<CryptoChartEntity>>> getChartData(
     String symbol,

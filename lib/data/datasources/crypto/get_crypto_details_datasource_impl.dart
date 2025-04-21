@@ -4,14 +4,14 @@ import 'package:crypto_rtq/core/exception/crypto_exception.dart';
 import 'package:crypto_rtq/core/extensions/chart_interval_extension.dart';
 import 'package:crypto_rtq/core/network/dio_client.dart';
 import 'package:crypto_rtq/core/utils/app_logger.dart';
-import 'package:crypto_rtq/data/datasources/crypto/crypto_datasource.dart';
+import 'package:crypto_rtq/data/datasources/crypto/get_crypto_details_datasource.dart';
 import 'package:crypto_rtq/data/models/crypto_chart_model.dart';
 import 'package:crypto_rtq/data/models/crypto_detail_model.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:crypto_rtq/domain/entities/crypto_detail_entity.dart';
 
-class CryptoDetailDatasourceImpl implements CryptoDetailDatasource {
-  CryptoDetailDatasourceImpl({required DioClient dioClient})
+class GetCryptoDetailsDatasourceImpl implements GetCryptoDetailsDatasource {
+  GetCryptoDetailsDatasourceImpl({required DioClient dioClient})
     : _dioClient = dioClient;
 
   final DioClient _dioClient;

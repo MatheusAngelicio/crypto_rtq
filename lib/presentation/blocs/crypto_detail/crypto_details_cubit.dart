@@ -1,11 +1,11 @@
-import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_detail_usecase.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_detail_state.dart';
+import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_details_usecase.dart';
+import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CryptoDetailCubit extends Cubit<CryptoDetailState> {
-  final GetCryptoDetailUseCase _getCryptoDetailUseCase;
+class CryptoDetailsCubit extends Cubit<CryptoDetailsState> {
+  final GetCryptoDetailsUseCase _getCryptoDetailUseCase;
 
-  CryptoDetailCubit({required GetCryptoDetailUseCase getCryptoDetailUseCase})
+  CryptoDetailsCubit({required GetCryptoDetailsUseCase getCryptoDetailUseCase})
     : _getCryptoDetailUseCase = getCryptoDetailUseCase,
       super(CryptoDetailInitial());
 
