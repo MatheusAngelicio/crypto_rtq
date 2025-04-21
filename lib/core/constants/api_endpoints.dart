@@ -5,4 +5,5 @@ class ApiEndpoints {
   // HTTP endpoints
   static const String tickerDetail = '/ticker/24hr';
   static const String chartData = '/uiKlines';
+  static const String tickerPrice = '/ticker/price';
 }

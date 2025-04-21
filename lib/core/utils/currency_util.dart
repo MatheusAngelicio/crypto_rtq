@@ -1,9 +1,9 @@
+import 'package:crypto_rtq/core/services/app_rates.dart';
 import 'package:intl/intl.dart';
 
 class CurrencyUtils {
-  static const double rate = 5.8; // taxa fixa por enquanto
-
   static double convert(double value, {bool toBRL = false}) {
+    final rate = AppRates.getRate();
     return toBRL ? value * rate : value;
   }
 

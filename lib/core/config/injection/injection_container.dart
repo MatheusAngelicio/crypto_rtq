@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/config/injection/modules/exchange_rate_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'modules/core_injection.dart';
@@ -12,12 +13,13 @@ class AppInjection extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        ...coreRepositories,
-        ...cryptoRepositories,
-        ...tickerRepositories,
+        ...coreInject,
+        ...cryptoInject,
+        ...tickerInject,
+        ...exchangeRateInject,
       ],
       child: MultiBlocProvider(
-        providers: [...cryptoBlocs, ...tickerBlocs],
+        providers: [...cryptoBlocs, ...tickerBlocs, ...exchangeRateBlocs],
         child: child,
       ),
     );

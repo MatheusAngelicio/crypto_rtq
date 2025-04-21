@@ -10,7 +10,7 @@ import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_cubit
 import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-List<RepositoryProvider> cryptoRepositories = [
+List<RepositoryProvider> cryptoInject = [
   RepositoryProvider<GetCryptoDetailsDatasource>(
     create:
         (context) => GetCryptoDetailsDatasourceImpl(
