@@ -7,6 +7,7 @@ import 'package:crypto_rtq/presentation/blocs/ticker/ticker_cubit.dart';
 import 'package:crypto_rtq/presentation/blocs/ticker/ticker_state.dart';
 import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
+import 'package:crypto_rtq/presentation/views/home/widgets/dollar_rate_bottom_sheet_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/shimmer_price_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +41,16 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.attach_money),
-            onPressed: () {
-              print("Dólar icon clicked");
-              // Aqui você pode implementar a navegação ou lógica futura
-            },
+            onPressed:
+                () => showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
+                  builder: (context) => DollarRateBottomSheet(),
+                ),
           ),
         ],
       ),
