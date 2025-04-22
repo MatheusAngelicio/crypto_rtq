@@ -16,9 +16,8 @@ class DollarRateBottomSheet extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.8),
+            color: Colors.black.withValues(alpha: .8),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(color: Colors.white.withOpacity(0.1)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
