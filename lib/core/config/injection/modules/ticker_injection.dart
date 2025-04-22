@@ -4,7 +4,7 @@ import 'package:crypto_rtq/data/repositories/get_ticker_prices_stream_repository
 import 'package:crypto_rtq/domain/repositories/get_ticker_prices_stream_repository.dart';
 import 'package:crypto_rtq/domain/usecases/ticker/get_ticker_prices_stream_usecase_impl.dart';
 import 'package:crypto_rtq/domain/usecases/ticker/get_ticker_prices_stream_usecase.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker/ticker_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/ticker/ticker_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<RepositoryProvider> tickerInject = [

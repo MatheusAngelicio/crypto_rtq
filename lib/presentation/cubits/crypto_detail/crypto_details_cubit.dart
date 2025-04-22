@@ -1,5 +1,5 @@
 import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_details_usecase.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_state.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_detail/crypto_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CryptoDetailsCubit extends Cubit<CryptoDetailsState> {

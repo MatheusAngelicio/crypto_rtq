@@ -1,5 +1,5 @@
 import 'package:crypto_rtq/domain/usecases/exchange_rate/get_exchange_rate_usecase.dart';
-import 'package:crypto_rtq/presentation/blocs/exchange_rate/exchange_rate_state.dart';
+import 'package:crypto_rtq/presentation/cubits/exchange_rate/exchange_rate_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExchangeRateCubit extends Cubit<ExchangeRateState> {

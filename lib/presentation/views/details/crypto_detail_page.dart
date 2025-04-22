@@ -1,10 +1,10 @@
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_state.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_state.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_state.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_chart/crypto_chart_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_chart/crypto_chart_state.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_detail/crypto_details_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_detail/crypto_details_state.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_interval/crypto_interval_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_interval/crypto_interval_state.dart';
 import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
 import 'package:crypto_rtq/presentation/views/details/widgets/crypto_chart_data_widget.dart';
 import 'package:crypto_rtq/presentation/views/details/widgets/crypto_price_details_widget.dart';

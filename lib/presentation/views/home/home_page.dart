@@ -1,10 +1,10 @@
 import 'package:crypto_rtq/core/config/app_routes.dart';
 import 'package:crypto_rtq/core/services/app_rates.dart';
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
-import 'package:crypto_rtq/presentation/blocs/exchange_rate/exchange_rate_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/exchange_rate/exchange_rate_state.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker/ticker_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/ticker/ticker_state.dart';
+import 'package:crypto_rtq/presentation/cubits/exchange_rate/exchange_rate_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/exchange_rate/exchange_rate_state.dart';
+import 'package:crypto_rtq/presentation/cubits/ticker/ticker_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/ticker/ticker_state.dart';
 import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/dollar_rate_bottom_sheet_widget.dart';

@@ -5,9 +5,9 @@ import 'package:crypto_rtq/data/repositories/get_crypto_details_repository_impl.
 import 'package:crypto_rtq/domain/repositories/get_crypto_details_repository.dart';
 import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_details_usecase.dart';
 import 'package:crypto_rtq/domain/usecases/crypto_detail/get_crypto_details_usecase_impl.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_chart/crypto_chart_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_detail/crypto_details_cubit.dart';
-import 'package:crypto_rtq/presentation/blocs/crypto_interval/crypto_interval_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_chart/crypto_chart_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_detail/crypto_details_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/crypto_interval/crypto_interval_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<RepositoryProvider> cryptoInject = [
