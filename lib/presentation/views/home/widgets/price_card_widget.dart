@@ -18,6 +18,7 @@ class PriceCardWidget extends StatelessWidget {
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
+        trailing: const Icon(Icons.chevron_right_rounded, color: Colors.grey),
         onTap: onTap,
         leading: CircleAvatar(child: Text(name[0])),
         title: Text(name),
