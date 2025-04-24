@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:crypto_rtq/core/utils/currency_util.dart';
 import 'package:crypto_rtq/domain/entities/crypto_chart_entity.dart';
 import 'package:flutter/material.dart';
