@@ -1,4 +1,5 @@
 import 'package:crypto_rtq/core/config/injection/modules/exchange_rate_injection.dart';
+import 'package:crypto_rtq/core/config/injection/modules/home_navigation_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'modules/core_injection.dart';
@@ -19,7 +20,12 @@ class AppInjection extends StatelessWidget {
         ...exchangeRateInject,
       ],
       child: MultiBlocProvider(
-        providers: [...cryptoBlocs, ...tickerBlocs, ...exchangeRateBlocs],
+        providers: [
+          ...cryptoBlocs,
+          ...tickerBlocs,
+          ...exchangeRateBlocs,
+          ...homeNavigationBlocs,
+        ],
         child: child,
       ),
     );

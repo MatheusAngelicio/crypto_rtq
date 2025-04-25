@@ -1,18 +1,14 @@
-import 'package:crypto_rtq/core/config/app_routes.dart';
-import 'package:crypto_rtq/core/services/app_rates.dart';
 import 'package:crypto_rtq/core/utils/ticker_utils.dart';
 import 'package:crypto_rtq/presentation/cubits/exchange_rate/exchange_rate_cubit.dart';
-import 'package:crypto_rtq/presentation/cubits/exchange_rate/exchange_rate_state.dart';
+import 'package:crypto_rtq/presentation/cubits/home_navigation/home_navigation_cubit.dart';
+import 'package:crypto_rtq/presentation/cubits/home_navigation/home_navigation_state.dart';
 import 'package:crypto_rtq/presentation/cubits/ticker/ticker_cubit.dart';
-import 'package:crypto_rtq/presentation/cubits/ticker/ticker_state.dart';
-import 'package:crypto_rtq/presentation/views/details/arguments/crypto_detail_arguments.dart';
-import 'package:crypto_rtq/presentation/views/home/widgets/currency_toggle_widget.dart';
+import 'package:crypto_rtq/presentation/views/home/pages/crypto_list_page.dart';
+import 'package:crypto_rtq/presentation/views/home/pages/crypto_notifications_page.dart';
+import 'package:crypto_rtq/presentation/views/home/widgets/custom_bottom_navigation_bar_item_widget.dart';
 import 'package:crypto_rtq/presentation/views/home/widgets/dollar_rate_bottom_sheet_widget.dart';
-import 'package:crypto_rtq/presentation/views/home/widgets/price_card_widget.dart';
-import 'package:crypto_rtq/presentation/views/home/widgets/shimmer_price_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,108 +18,95 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final HomeNavigationCubit _homeNavigationCubit;
   late final TickerCubit _tickerCubit;
   late final ExchangeRateCubit _exchangeRateCubit;
 
   @override
   void initState() {
     super.initState();
+    _homeNavigationCubit = context.read<HomeNavigationCubit>();
     _exchangeRateCubit = context.read<ExchangeRateCubit>()..load('USDTBRL');
     _tickerCubit = context.read<TickerCubit>()..load(TickerUtils.symbols);
   }
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      CryptoListPage(
+        tickerCubit: _tickerCubit,
+        exchangeRateCubit: _exchangeRateCubit,
+      ),
+      const CryptoNotificationsPage(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Crypto Prices'),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.attach_money),
-            onPressed:
-                () => showModalBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(24),
-                    ),
-                  ),
-                  builder: (context) => DollarRateBottomSheet(),
-                ),
+          BlocBuilder<HomeNavigationCubit, HomeNavigationState>(
+            bloc: _homeNavigationCubit,
+            builder: (context, state) {
+              return state.currentIndex == 0
+                  ? IconButton(
+                    icon: const Icon(Icons.attach_money),
+                    onPressed:
+                        () => showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
+                          ),
+                          builder: (context) => DollarRateBottomSheet(),
+                        ),
+                  )
+                  : SizedBox.shrink();
+            },
           ),
         ],
       ),
-      body: BlocBuilder<TickerCubit, TickerState>(
-        bloc: _tickerCubit,
-        builder: (context, tickerState) {
-          return BlocBuilder<ExchangeRateCubit, ExchangeRateState>(
-            bloc: _exchangeRateCubit,
-            builder: (context, exchangeRateState) {
-              if (tickerState is TickerError) {
-                return Center(child: Text('Error: ${tickerState.message}'));
-              } else if (exchangeRateState is ExchangeRateError) {
-                return Center(
-                  child: Text('Error: ${exchangeRateState.message}'),
-                );
-              }
-
-              if (tickerState is TickerLoading ||
-                  exchangeRateState is ExchangeRateLoading) {
-                return const ShimmerPriceListWidget();
-              }
-
-              if (tickerState is TickerLoaded &&
-                  exchangeRateState is ExchangeRateLoaded) {
-                final prices = tickerState.prices;
-                final isBRL = tickerState.currency == 'BRL';
-
-                AppRates.updateUsdBrl(
-                  double.parse(exchangeRateState.data.price),
-                );
-
-                return Column(
-                  children: [
-                    CurrencyToggleWidget(
-                      isBRL: isBRL,
-                      onChanged:
-                          (_) => context.read<TickerCubit>().toggleCurrency(),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: prices.length,
-                        itemBuilder: (context, index) {
-                          final ticker = prices[index];
-                          final convertedPrice = TickerUtils.formatPrice(
-                            priceStr: ticker.price.toString(),
-                            toBRL: isBRL,
-                          );
-
-                          return PriceCardWidget(
-                            name: TickerUtils.getCoinName(ticker.symbol),
-                            price: convertedPrice,
-                            onTap: () {
-                              context.pushNamed(
-                                AppRoutes.cryptoDetailName,
-                                extra: CryptoDetailArguments(
-                                  tickerEntity: ticker,
-                                  isBRL: isBRL,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          );
+      body: BlocBuilder<HomeNavigationCubit, HomeNavigationState>(
+        bloc: _homeNavigationCubit,
+        builder: (context, state) {
+          return pages[state.currentIndex];
         },
       ),
+      bottomNavigationBar:
+          BlocBuilder<HomeNavigationCubit, HomeNavigationState>(
+            bloc: _homeNavigationCubit,
+            builder: (context, state) {
+              return BottomNavigationBar(
+                currentIndex: state.currentIndex,
+                onTap: (index) {
+                  _homeNavigationCubit.changePage(index);
+                },
+                selectedItemColor: Theme.of(context).colorScheme.primary,
+                unselectedItemColor: Colors.grey[500],
+                selectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                ),
+                items: [
+                  CustomBottomNavigationBarItem(
+                    icon: Icons.currency_bitcoin,
+                    label: 'Cryptos',
+                    index: 0,
+                    currentIndex: state.currentIndex,
+                  ),
+                  CustomBottomNavigationBarItem(
+                    icon: Icons.notifications,
+                    label: 'Notifications',
+                    index: 1,
+                    currentIndex: state.currentIndex,
+                  ),
+                ],
+              );
+            },
+          ),
     );
   }
 }
