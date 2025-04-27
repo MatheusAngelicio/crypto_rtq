@@ -19,7 +19,6 @@ class GetTickerPricesStreamDatasourceImpl
     if (!_channels.containsKey(symbol)) {
       try {
         _channels[symbol] = WebSocketChannel.connect(Uri.parse(url));
-        AppLogger.success('[WebSocket] Connected successfully: $symbol');
       } catch (e) {
         AppLogger.error('[WebSocket] Connection failed with $symbol: $e');
         throw CryptoException('Failed to connect to WebSocket for $symbol.');
@@ -27,9 +26,15 @@ class GetTickerPricesStreamDatasourceImpl
     }
 
     final channel = _channels[symbol]!;
+    bool hasLoggedConnected = false;
 
     return channel.stream.map((event) {
       try {
+        if (!hasLoggedConnected) {
+          AppLogger.success('[WebSocket] Connected successfully: $symbol');
+          hasLoggedConnected = true;
+        }
+
         final data = jsonDecode(event);
         return TickerModel.fromMap(data);
       } catch (e) {
