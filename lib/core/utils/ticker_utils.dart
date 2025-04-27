@@ -5,6 +5,9 @@ class TickerUtils {
   static List<String> get symbols =>
       TickerEnum.values.map((e) => e.symbol).toList();
 
+  static List<String> get names =>
+      TickerEnum.values.map((e) => e.name).toList();
+
   static String getCoinName(String symbol) {
     return TickerEnum.fromSymbol(symbol)?.name ?? '';
   }

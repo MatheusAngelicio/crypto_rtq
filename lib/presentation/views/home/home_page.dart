@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => DollarRateBottomSheet(),
                         ),
                   )
-                  : SizedBox.shrink();
+                  : IconButton(icon: const Icon(Icons.save), onPressed: () {});
             },
           ),
         ],
