@@ -1,3 +1,4 @@
+import 'package:crypto_rtq/core/config/injection/modules/crypto_notification_injection.dart';
 import 'package:crypto_rtq/core/config/injection/modules/exchange_rate_injection.dart';
 import 'package:crypto_rtq/core/config/injection/modules/home_navigation_injection.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class AppInjection extends StatelessWidget {
           ...tickerBlocs,
           ...exchangeRateBlocs,
           ...homeNavigationBlocs,
+          ...cryptoNotificationIjnection,
         ],
         child: child,
       ),
