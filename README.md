@@ -33,9 +33,6 @@
 ## 🧱 Project Structure
 
 The project follows a well-structured MVVM architecture:
-## 🧱 Project Structure
-
-The project follows a well-structured MVVM architecture:
 
 <img src="https://github.com/user-attachments/assets/998edd59-c5f1-4ca2-a14b-f11cc71599be" alt="Image" width="400"/>
 
